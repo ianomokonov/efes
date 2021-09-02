@@ -3,25 +3,25 @@
     <div class='grid'>
       <h3 class='col-6 m-auto text-center'>Авторизация</h3>
     </div>
-    <div class='col-6 m-auto' [formGroup]='logInForm'>
-      <div class="field col-12 flex justify-content-center">
-      <span class="p-float-label p-input-icon-left">
+    <div [formGroup]='logInForm'>
+      <div class="col-12">
+      <span class="p-input-icon-left block">
           <i class="pi pi-user"></i>
           <input pInputText
                  type="text"
+                 placeholder="Логин"
                  id="login_field"
                  formControlName='login'>
-          <label for="login_field">Логин</label>
       </span>
       </div>
-      <div class="field col-12 flex justify-content-center">
-      <span class="p-float-label p-input-icon-left">
+      <div class="mb-3 col-12">
+      <span class="p-input-icon-left block">
           <i class="pi pi-lock"></i>
           <input pInputText
                  type="password"
                  id="password_field"
+                 placeholder="Пароль"
                  formControlName='password'>
-          <label for="password_field">Пароль</label>
       </span>
       </div>
     </div>

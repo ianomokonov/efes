@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TokensResponse } from 'src/app/_models/responses/tokens.response';
+import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
 import { TokenService } from '../front/token.service';
 import { environment } from '../../../environments/environment';
 import { User } from '../../_entities/user.entity';
@@ -27,6 +28,10 @@ export class UserService {
         this.authService.storeTokens(tokens);
       }),
     );
+  }
+
+  public getRoles(): Observable<IdNameResponse[]> {
+    return this.http.get<IdNameResponse[]>(`${this.baseUrl}/roles`);
   }
 
   public signOut() {

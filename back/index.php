@@ -37,13 +37,13 @@ $app->post('/login', function (Request $request, Response $response) use ($dataB
     }
 });
 
-$app->get('/test', function (Request $request, Response $response) use ($dataBase) {
-
+$app->get('/roles', function (Request $request, Response $response) use ($dataBase) {
+    $user = new User($dataBase);
     try {
-        $response->getBody()->write(json_encode(array("message" => "Success", "request" => $request->getQueryParams())));
+        $response->getBody()->write(json_encode($user->getRoles()));
         return $response;
     } catch (Exception $e) {
-        $response->getBody()->write(json_encode(array("message" => "Ошибка", "error" => $e)));
+        $response->getBody()->write(json_encode(array("message" => "Ошибка загрузки ролей")));
         return $response->withStatus(401);
     }
 });

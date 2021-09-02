@@ -3,8 +3,8 @@
     <div class="grid">
       <h3 class="col-6 m-auto text-center">Регистрация</h3>
     </div>
-    <div class="col-6 m-auto" [formGroup]="signUpForm">
-      <div class="field col-12 flex justify-content-center">
+    <div [formGroup]="signUpForm">
+      <div class="col-12 flex justify-content-center">
         <span class="w-12">
           <input
             pInputText
@@ -16,7 +16,7 @@
           />
         </span>
       </div>
-      <div class="field col-12 flex justify-content-center">
+      <div class="col-12 flex justify-content-center">
         <span class="w-12">
           <p-inputMask
             inputId="phone_field"
@@ -29,7 +29,7 @@
           ></p-inputMask>
         </span>
       </div>
-      <div class="field col-12 flex justify-content-center">
+      <div class="col-12 flex justify-content-center">
         <span class="w-12">
           <input
             pInputText
@@ -41,17 +41,15 @@
           />
         </span>
       </div>
-      <div class="field col-12 flex justify-content-center">
+      <div class="col-12 flex justify-content-center">
         <div class="p-inputgroup">
-          <span class="w-12">
-            <input
-              pInputText
-              placeholder="Пароль"
-              [type]="showPassword ? 'text' : 'password'"
-              id="password_field"
-              formControlName="password"
-            />
-          </span>
+          <input
+            pInputText
+            placeholder="Пароль"
+            [type]="showPassword ? 'text' : 'password'"
+            id="password_field"
+            formControlName="password"
+          />
           <span
             class="p-inputgroup-addon pointer"
             (mousedown)="showPassword = true"
@@ -61,18 +59,16 @@
           </span>
         </div>
       </div>
-      <div class="field col-12 flex flex-column justify-content-center">
+      <div class="col-12 flex flex-column justify-content-center">
         <div class="p-inputgroup">
-          <span class="w-12">
-            <input
-              pInputText
-              placeholder="Повторите пароль"
-              [type]="showPasswordConfirm ? 'text' : 'password'"
-              id="password_confirm"
-              [ngClass]="signUpForm.hasError('notSame') ? 'ng-invalid' : ''"
-              formControlName="passwordConfirm"
-            />
-          </span>
+          <input
+            pInputText
+            placeholder="Повторите пароль"
+            [type]="showPasswordConfirm ? 'text' : 'password'"
+            id="password_confirm"
+            [ngClass]="signUpForm.hasError('notSame') ? 'ng-invalid' : ''"
+            formControlName="passwordConfirm"
+          />
           <span
             class="p-inputgroup-addon pointer"
             (mousedown)="showPasswordConfirm = true"
@@ -87,7 +83,7 @@
           >Пароли не совпадают</span
         >
       </div>
-      <div class="field col-12 flex flex-column justify-content-center">
+      <div class="mb-3 col-12 flex flex-column justify-content-center">
         <div class="p-inputgroup">
           <p-dropdown
             class="w-12"

@@ -25,8 +25,8 @@ class User
 
         // Вставляем запрос
         $userData->password = password_hash($userData->password, PASSWORD_BCRYPT);
-
-        if ($this->LoginExists($userData->login)) {
+        
+        if ($this->LoginOrEmailExists($userData->login, $userData->email)) {
             throw new Exception('Пользователь уже существует');
         }
         $query = $this->dataBase->genInsertQuery(
@@ -46,6 +46,13 @@ class User
             return $tokens;
         }
         return null;
+    }
+
+    // Получение пользовательских ролей
+    public function getRoles()
+    {
+        $query = "SELECT * FROM UserRole";
+        return $this->dataBase->db->query($query)->fetchAll();;
     }
 
     // Получение пользовательской информации
@@ -219,24 +226,23 @@ class User
         return true;
     }
 
-    private function LoginExists(string $login)
+    private function LoginOrEmailExists(string $login, string $email)
     {
-        $query = "SELECT id FROM " . $this->table . " WHERE login = ?";
+        $query = "SELECT id FROM " . $this->table . " WHERE login = ? OR email = ?";
+        
 
         // подготовка запроса
         $stmt = $this->dataBase->db->prepare($query);
-        // инъекция
-        $login = json_encode(htmlspecialchars(strip_tags($login)));
         // выполняем запрос
-        $stmt->execute(array($login));
+        $stmt->execute(array($login, $email));
 
         // получаем количество строк
         $num = $stmt->rowCount();
 
         if ($num > 0) {
-            return $stmt->fetch()['id'];
+            return true;
         }
 
-        return $num > 0;
+        return false;
     }
 }

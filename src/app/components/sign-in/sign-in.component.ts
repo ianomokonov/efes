@@ -22,10 +22,14 @@ export class SignInComponent {
   public signIn() {
     if (isFormInvalid(this.logInForm)) return;
     const logData = this.logInForm?.getRawValue();
-    this.userService.signIn(logData).subscribe((user) => {
-      if (user) {
-        this.router.navigate(['/profile']);
-      }
-    });
+    this.userService.signIn(logData).subscribe(
+      (user) => {
+        if (user) {
+          this.router.navigate(['/profile']);
+        }
+      },
+      // eslint-disable-next-line no-alert
+      ({ error }) => alert(error?.message),
+    );
   }
 }
