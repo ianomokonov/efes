@@ -175,8 +175,9 @@ class User
         $this->dataBase->db->query($query);
     }
 
-    public function removeRefreshToken($userId)
+    public function removeRefreshToken($token)
     {
+        $userId = $this->token->decode($token, true)->data->id;
         $query = "DELETE FROM RefreshTokens WHERE userId = $userId";
         $this->dataBase->db->query($query);
     }
