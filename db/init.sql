@@ -67,3 +67,6 @@ ALTER TABLE `User` ADD FOREIGN KEY (roleId) REFERENCES `UserRole` (`id`);
 
 INSERT INTO `UserRole` (`id`, `name`) VALUES
 (1, 'Застройщик'), (2, 'Ген. подрядчик'), (3, 'Подрядчик');
+
+INSERT INTO `User` (`id`, `login`, `password`, `email`, `phone`, `isAdmin`, `roleId`) VALUES
+(1, 'inomokonov', '$2y$10$GqAKHsx2hGLBlrYGhWGn.OUe8NUhXut0XUpi7x5Xb4Y3DOs4g/.pa', 'nomokonov.vana@gmail.com', '89151999845', 1, 1);
