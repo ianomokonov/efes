@@ -42,7 +42,7 @@ class User
         $userId = $this->dataBase->db->lastInsertId();
         if ($userId) {
             $tokens = $this->token->encode(array("id" => $userId));
-            $this->addRefreshToken($tokens[1], $userId);
+            $this->addRefreshToken($tokens["refreshToken"], $userId);
             return $tokens;
         }
         return null;
@@ -100,14 +100,14 @@ class User
     {
         if ($login != null) {
             $sth = $this->dataBase->db->prepare("SELECT id, password FROM " . $this->table . " WHERE login = ? LIMIT 1");
-            $sth->execute($login);
+            $sth->execute(array($login));
             $fullUser = $sth->fetch();
             if ($fullUser) {
                 if (!password_verify($password, $fullUser['password'])) {
                     throw new Exception("User not found", 404);
                 }
                 $tokens = $this->token->encode(array("id" => $fullUser['id']));
-                $this->addRefreshToken($tokens[1], $fullUser['id']);
+                $this->addRefreshToken($tokens["refreshToken"], $fullUser['id']);
                 return $tokens;
             } else {
                 throw new Exception("User not found", 404);
@@ -169,6 +169,8 @@ class User
 
     public function addRefreshToken($tokenn, $userId)
     {
+        $query = "DELETE FROM RefreshTokens WHERE userId=$userId";
+        $this->dataBase->db->query($query);
         $query = "INSERT INTO RefreshTokens (token, userId) VALUES ('$tokenn', $userId)";
         $this->dataBase->db->query($query);
     }
