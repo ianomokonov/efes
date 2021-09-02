@@ -65,5 +65,5 @@ ALTER TABLE `User` ADD FOREIGN KEY (roleId) REFERENCES `UserRole` (`id`);
 
 -- Заполнение данными
 
-INSERT INTO `UserRole` (`id`, `name`,) VALUES
+INSERT INTO `UserRole` (`id`, `name`) VALUES
 (1, 'Застройщик'), (2, 'Ген. подрядчик'), (3, 'Подрядчик');
