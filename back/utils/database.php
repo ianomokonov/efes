@@ -8,9 +8,9 @@ class DataBase
     public $db;
     public function __construct()
     {
-        // $this->db = new PDO("mysql:host=localhost;dbname=" . $this->dbname . ";charset=UTF8", $this->login, $this->password);
-        // $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $this->db = new PDO("mysql:host=localhost;dbname=" . $this->dbname . ";charset=UTF8", $this->login, $this->password);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
     public function genInsertQuery($ins, $t)
@@ -46,38 +46,8 @@ class DataBase
 
     public function stripAll($object)
     {
-        for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
-            $key = array_keys((array)$object)[$i];
-
+        foreach(array_keys((array)$object) as $key){
             $object[$key] = htmlspecialchars(strip_tags($object[$key]));
-            if ($this->canStrip($object, $key)) {
-                $object[$key] = json_encode($object[$key]);
-            }
-        }
-        return $object;
-    }
-
-    public function canStrip($object, $key)
-    {
-        // echo json_encode(array($object[$key], !is_numeric($object[$key])
-        // ,strpos($key, 'date') === false
-        // ,$object[$key] != false
-        // ,strpos($key, 'image') === false));
-        return !is_numeric($object[$key])
-            && strpos($key, 'date') === false
-            && $object[$key] != false
-            && strpos($key, 'image') === false;
-    }
-
-    public function decode($object)
-    {
-        for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
-            if (
-                gettype($object[array_keys((array)$object)[$i]]) == 'string'
-                && strpos(array_keys((array)$object)[$i], 'date') === false
-            ) {
-                $object[array_keys((array)$object)[$i]] = json_decode($object[array_keys((array)$object)[$i]]);
-            }
         }
         return $object;
     }

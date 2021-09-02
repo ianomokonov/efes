@@ -5,11 +5,11 @@ require_once __DIR__ . '/../utils/filesUpload.php';
 class User
 {
     private $dataBase;
-    private $table = 'user';
+    private $table = 'User';
     private $token;
     private $fileUploader;
     // private $baseUrl = 'http://localhost:4200/back';
-    private $baseUrl = 'http://stand1.progoff.ru/back';
+    private $baseUrl = 'http://stand2.progoff.ru/back';
 
     // конструктор класса User
     public function __construct(DataBase $dataBase)
@@ -21,16 +21,14 @@ class User
 
     public function create($userData)
     {
-        $password = htmlspecialchars(strip_tags($userData->password));
-        unset($userData->password);
-        unset($userData->passwordConfirm);
-        $userData = $this->dataBase->stripAll((array)$userData);
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        if ($this->LoginExists($userData['login'])) {
+        $userData = (object) $this->dataBase->stripAll((array)$userData);
+
+        // Вставляем запрос
+        $userData->password = password_hash($userData->password, PASSWORD_BCRYPT);
+
+        if ($this->LoginExists($userData->login)) {
             throw new Exception('Пользователь уже существует');
         }
-        // Вставляем запрос
-        $userData['password'] = json_encode($password);
         $query = $this->dataBase->genInsertQuery(
             $userData,
             $this->table
@@ -54,7 +52,7 @@ class User
     public function read($userId)
     {
         $query = "SELECT login, email, phone FROM $this->table WHERE id='$userId'";
-        $user = $this->dataBase->decode($this->dataBase->db->query($query)->fetch());
+        $user = $this->dataBase->db->query($query)->fetch();
         // if($user == true){
         //     throw new Exception("User not found", 404);
         // }
@@ -70,11 +68,11 @@ class User
 
     public function getUsers()
     {
-        $query = "SELECT id, name, surname FROM " . $this->table;
+        $query = "SELECT login, email, phone FROM " . $this->table;
         $stmt = $this->dataBase->db->query($query);
         $users = [];
         while ($user = $stmt->fetch()) {
-            $user = $this->dataBase->decode($user);
+            $user = $user;
             $users[] = $user;
         }
         return $users;
@@ -102,8 +100,8 @@ class User
     {
         if ($login != null) {
             $sth = $this->dataBase->db->prepare("SELECT id, password FROM " . $this->table . " WHERE login = ? LIMIT 1");
-            $sth->execute(array(json_encode($login)));
-            $fullUser = $this->dataBase->decode($sth->fetch());
+            $sth->execute($login);
+            $fullUser = $sth->fetch();
             if ($fullUser) {
                 if (!password_verify($password, $fullUser['password'])) {
                     throw new Exception("User not found", 404);
@@ -121,7 +119,7 @@ class User
 
     public function isRefreshTokenActual($token, $userId)
     {
-        $query = "SELECT id FROM refreshTokens WHERE token = ? AND userId = ?";
+        $query = "SELECT id FROM RefreshTokens WHERE token = ? AND userId = ?";
 
         // подготовка запроса
         $stmt = $this->dataBase->db->prepare($query);
@@ -171,13 +169,13 @@ class User
 
     public function addRefreshToken($tokenn, $userId)
     {
-        $query = "INSERT INTO refreshTokens (token, userId) VALUES ('$tokenn', $userId)";
+        $query = "INSERT INTO RefreshTokens (token, userId) VALUES ('$tokenn', $userId)";
         $this->dataBase->db->query($query);
     }
 
     public function removeRefreshToken($userId)
     {
-        $query = "DELETE FROM refreshTokens WHERE userId = $userId";
+        $query = "DELETE FROM RefreshTokens WHERE userId = $userId";
         $this->dataBase->db->query($query);
     }
 
@@ -225,9 +223,9 @@ class User
         // подготовка запроса
         $stmt = $this->dataBase->db->prepare($query);
         // инъекция
-        $email = json_encode(htmlspecialchars(strip_tags($login)));
+        $login = json_encode(htmlspecialchars(strip_tags($login)));
         // выполняем запрос
-        $stmt->execute(array($email));
+        $stmt->execute(array($login));
 
         // получаем количество строк
         $num = $stmt->rowCount();
