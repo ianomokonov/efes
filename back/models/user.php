@@ -26,7 +26,7 @@ class User
         // Вставляем запрос
         $userData->password = password_hash($userData->password, PASSWORD_BCRYPT);
         
-        if ($this->LoginOrEmailExists($userData->login, $userData->email)) {
+        if ($this->emailExists($userData->email)) {
             throw new Exception('Пользователь уже существует');
         }
         $query = $this->dataBase->genInsertQuery(
@@ -103,11 +103,11 @@ class User
         return $stmt->fetch()['image'];
     }
 
-    public function login($login, $password)
+    public function login($email, $password)
     {
-        if ($login != null) {
-            $sth = $this->dataBase->db->prepare("SELECT id, password FROM " . $this->table . " WHERE login = ? LIMIT 1");
-            $sth->execute(array($login));
+        if ($email != null) {
+            $sth = $this->dataBase->db->prepare("SELECT id, password FROM " . $this->table . " WHERE email = ? LIMIT 1");
+            $sth->execute(array($email));
             $fullUser = $sth->fetch();
             if ($fullUser) {
                 if (!password_verify($password, $fullUser['password'])) {
@@ -206,7 +206,7 @@ class User
 
     public function getUpdateLink($email)
     {
-        $userId = $this->LoginExists($email);
+        $userId = $this->emailExists($email);
         $path = 'logs.txt';
 
         if (!$userId) {
@@ -226,15 +226,15 @@ class User
         return true;
     }
 
-    private function LoginOrEmailExists(string $login, string $email)
+    private function emailExists(string $email)
     {
-        $query = "SELECT id FROM " . $this->table . " WHERE login = ? OR email = ?";
+        $query = "SELECT id FROM " . $this->table . " WHERE email = ?";
         
 
         // подготовка запроса
         $stmt = $this->dataBase->db->prepare($query);
         // выполняем запрос
-        $stmt->execute(array($login, $email));
+        $stmt->execute(array($email));
 
         // получаем количество строк
         $num = $stmt->rowCount();
