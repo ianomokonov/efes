@@ -25,7 +25,7 @@ class User
 
         // Вставляем запрос
         $userData->password = password_hash($userData->password, PASSWORD_BCRYPT);
-        
+
         if ($this->emailExists($userData->email)) {
             throw new Exception('Пользователь уже существует');
         }
@@ -58,19 +58,31 @@ class User
     // Получение пользовательской информации
     public function read($userId)
     {
-        $query = "SELECT login, email, phone FROM $this->table WHERE id='$userId'";
+        $query = "SELECT u.name, surname, lastname, email, phone, u.roleId, ur.name as roleName FROM $this->table u JOIN UserRole ur ON u.roleId = ur.id WHERE u.id=$userId";
         $user = $this->dataBase->db->query($query)->fetch();
-        // if($user == true){
-        //     throw new Exception("User not found", 404);
-        // }
-        // file_put_contents('logs.txt', PHP_EOL.json_encode($user), FILE_APPEND);
+        $user['roleId'] = $user['roleId'] * 1;
         return $user;
     }
 
-    // Получение пользовательской информации
-
-    public function update($userId, $userData, $image = null)
+    public function update($userId, $request)
     {
+        $request = $this->dataBase->stripAll((array)$request);
+        if (isset($request['password'])) {
+            unset($request['password']);
+        }
+        if (isset($request['email'])) {
+            unset($request['email']);
+        }
+
+        $query = $this->dataBase->genUpdateQuery(
+            $request,
+            $this->table,
+            $userId
+        );
+
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        $stmt->execute($query[1]);
+        return true;
     }
 
     public function getUsers()
@@ -229,7 +241,7 @@ class User
     private function emailExists(string $email)
     {
         $query = "SELECT id FROM " . $this->table . " WHERE email = ?";
-        
+
 
         // подготовка запроса
         $stmt = $this->dataBase->db->prepare($query);
@@ -240,7 +252,7 @@ class User
         $num = $stmt->rowCount();
 
         if ($num > 0) {
-            return true;
+            return $stmt->fetch()['id'] * 1;
         }
 
         return false;

@@ -17,6 +17,7 @@ use Slim\Routing\RouteCollectorProxy;
 use Slim\Routing\RouteContext;
 
 $dataBase = new DataBase();
+$user = new User($dataBase);
 $token = new Token();
 $app = AppFactory::create();
 $app->setBasePath(rtrim($_SERVER['PHP_SELF'], '/index.php'));
@@ -95,28 +96,49 @@ $app->post('/update-password', function (Request $request, Response $response) u
     }
 });
 
-$app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
-    
-    $group->group('admin', function (RouteCollectorProxy $adminGroup) use ($dataBase) {
+$app->group('/', function (RouteCollectorProxy $group) use ($user) {
 
-    })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
-        $userId = $request->getAttribute('userId');
+    $group->group('user', function (RouteCollectorProxy $userGroup) use ($user) {
+        $userGroup->get('', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->read($request->getAttribute('userId'))));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
 
-        $user = new User($dataBase);
-
-        if ($user->checkAdmin($userId)) {
-            return $handler->handle($request);
-        }
-
-        $response = new ResponseClass();
-        $response->getBody()->write(json_encode(array("message" => "Отказано в доступе к функционалу администратора")));
-        return $response->withStatus(403);
+        $userGroup->put('', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->update($request->getAttribute('userId'), $request->getParsedBody())));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
     });
+
+    // $group->group('admin', function (RouteCollectorProxy $adminGroup) use ($dataBase) {
+    // })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
+    //     $userId = $request->getAttribute('userId');
+
+    //     $user = new User($dataBase);
+
+    //     if ($user->checkAdmin($userId)) {
+    //         return $handler->handle($request);
+    //     }
+
+    //     $response = new ResponseClass();
+    //     $response->getBody()->write(json_encode(array("message" => "Отказано в доступе к функционалу администратора")));
+    //     return $response->withStatus(403);
+    // });
 })->add(function (Request $request, RequestHandler $handler) use ($token) {
     try {
-        // $jwt = explode(' ', $request->getHeader('Authorization')[0])[1];
-        // $userId = $token->decode($jwt)->data->id;
-        // $request = $request->withAttribute('userId', $userId);
+        $jwt = explode(' ', $request->getHeader('Authorization')[0])[1];
+        $userId = $token->decode($jwt)->data->id;
+        $request = $request->withAttribute('userId', $userId);
         $response = $handler->handle($request);
 
         return $response;
