@@ -109,6 +109,16 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user) {
             }
         });
 
+        $userGroup->get('/profile-info', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->getProfileInfo($request->getAttribute('userId'))));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
+
         $userGroup->put('', function (Request $request, Response $response) use ($user) {
             try {
                 $response->getBody()->write(json_encode($user->update($request->getAttribute('userId'), $request->getParsedBody())));

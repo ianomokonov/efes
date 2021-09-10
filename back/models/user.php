@@ -64,6 +64,42 @@ class User
         return $user;
     }
 
+    public function getProfileInfo($userId)
+    {
+        $info = array(
+            "documents"=> $this->getDocuments($userId),
+            "completeOrders" => [
+                array("value"=>1000, "date"=>"01.07.21"),
+                array("value"=>1500, "date"=>"08.07.21"),
+                array("value"=>900, "date"=>"15.07.21"),
+                array("value"=>1200, "date"=>"22.07.21"),
+                array("value"=>1800, "date"=>"29.07.21")
+            ],
+            "views" => [
+                array("value"=>1000, "date"=>"01.07.21"),
+                array("value"=>1500, "date"=>"08.07.21"),
+                array("value"=>900, "date"=>"15.07.21"),
+                array("value"=>1200, "date"=>"22.07.21"),
+                array("value"=>1800, "date"=>"29.07.21")
+            ],
+            "totalSums" => [
+                array("value"=>10000, "date"=>"01.07.21"),
+                array("value"=>14000, "date"=>"08.07.21"),
+                array("value"=>9000, "date"=>"15.07.21"),
+                array("value"=>13000, "date"=>"22.07.21"),
+                array("value"=>15000, "date"=>"29.07.21")
+            ],
+        );
+        return $info;
+    }
+
+    private function getDocuments($userId)
+    {
+        $query = "SELECT d.id, d.name, files.file FROM (SELECT file, documentId FROM UserDocument WHERE userId = $userId) as files RIGHT JOIN Document d ON d.id=files.documentId ORDER BY d.id";
+        $user = $this->dataBase->db->query($query)->fetch();
+        return $this->dataBase->db->query($query)->fetchAll();
+    }
+
     public function update($userId, $request)
     {
         $request = $this->dataBase->stripAll((array)$request);

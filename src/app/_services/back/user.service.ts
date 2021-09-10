@@ -8,6 +8,7 @@ import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
 import { LoginRequest } from 'src/app/_models/requests/login.request';
 import { CreateUserRequest } from 'src/app/_models/requests/create-user.request';
 import { SaveUserRequest } from 'src/app/_models/requests/save-user.request';
+import { ProfileResponse } from 'src/app/_models/responses/profile.response';
 import { TokenService } from '../front/token.service';
 import { environment } from '../../../environments/environment';
 import { User } from '../../_entities/user.entity';
@@ -35,6 +36,10 @@ export class UserService {
 
   public getRoles(): Observable<IdNameResponse[]> {
     return this.http.get<IdNameResponse[]>(`${this.baseUrl}/roles`);
+  }
+
+  public getProfileInfo(): Observable<ProfileResponse> {
+    return this.http.get<ProfileResponse>(`${this.baseUrl}/user/profile-info`);
   }
 
   public signOut() {
