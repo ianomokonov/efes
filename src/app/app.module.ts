@@ -1,14 +1,16 @@
+import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import {
+  TuiRootModule,
+  TuiDialogModule,
+  TuiNotificationsModule,
+  TUI_SANITIZER,
+  TuiButtonModule,
+} from '@taiga-ui/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CardModule } from 'primeng/card';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { InputMaskModule } from 'primeng/inputmask';
-import { MenubarModule } from 'primeng/menubar';
-import { DropdownModule } from 'primeng/dropdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
@@ -22,14 +24,12 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    InputTextModule,
     FormsModule,
-    CardModule,
-    ButtonModule,
     ReactiveFormsModule,
-    InputMaskModule,
-    MenubarModule,
-    DropdownModule,
+    TuiRootModule,
+    TuiDialogModule,
+    TuiNotificationsModule,
+    TuiButtonModule,
   ],
   providers: [
     {
@@ -37,6 +37,7 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
       useClass: TokenInterceptor,
       multi: true,
     },
+    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
   ],
   bootstrap: [AppComponent],
 })

@@ -1,13 +1,21 @@
-<p-menubar [model]="items" styleClass="p-0"
-  ><div class="pr-2">
-    <button class="p-button-outlined" pButton label="Регистрация" routerLink="/sign-up"></button
-    ><button class="ml-2" pButton label="Вход" routerLink="/sign-in"></button
-    ><button
-      *ngIf="tokenService.getRefreshToken()"
-      class="ml-2"
-      pButton
-      label="Выход"
-      (click)="onExit()"
-    ></button></div
-></p-menubar>
+<tui-root>
+  <div class='tui-row'>
+    <button tuiButton type='button' appearance='primary' [routerLink]='["/home"]'>Главная</button>
+    <button tuiButton type='button' appearance='primary' [routerLink]='["/rates"]'>Тарифы</button>
+    <button tuiButton type='button' appearance='primary' [routerLink]='["/feedback"]'>Отзывы</button>
+  </div>
+<!--<p-menubar [model]="items" styleClass="p-0"-->
+<!--  ><div class="pr-2">-->
+<!--    <button class="p-button-outlined" pButton label="Регистрация" routerLink="/sign-up"></button-->
+<!--    ><button class="ml-2" pButton label="Вход" routerLink="/sign-in"></button-->
+<!--    ><button-->
+<!--      *ngIf="tokenService.getRefreshToken()"-->
+<!--      class="ml-2"-->
+<!--      pButton-->
+<!--      label="Выход"-->
+<!--      (click)="onExit()"-->
+<!--    ></button></div-->
+<!--&gt;</p-menubar>-->
 <router-outlet></router-outlet>
+
+</tui-root>
