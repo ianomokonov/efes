@@ -7,6 +7,7 @@ import {
   TuiButtonModule,
   TuiLinkModule,
   TuiDataListModule,
+  TuiLabelModule,
 } from '@taiga-ui/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,6 +21,7 @@ import {
   TuiInputPhoneModule,
   TuiIslandModule,
   TuiSelectModule,
+  TuiSelectOptionModule,
 } from '@taiga-ui/kit';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,8 +48,10 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
     TuiInputPasswordModule,
     TuiInputPhoneModule,
     TuiSelectModule,
+    TuiSelectOptionModule,
     TuiDataListModule,
     TuiDataListWrapperModule,
+    TuiLabelModule,
   ],
   providers: [
     {

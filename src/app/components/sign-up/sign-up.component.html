@@ -1,24 +1,30 @@
-<div class="tui-container">
-  <tui-island textAlign="center" [formGroup]="signUpForm">
-    <tui-input formControlName="name">ФИО</tui-input>
-    <tui-input formControlName="email">Почта</tui-input>
-    <tui-input-phone formControlName="phone">Телефон</tui-input-phone>
-    <tui-input-password formControlName="password">Пароль</tui-input-password>
-    <tui-select formControlName="roleId" [valueContent]="roleContent">
-      Выберите роль
-      <tui-data-list-wrapper
-        *tuiDataList
-        [items]="roles"
-        [itemContent]="roleContent"
-      ></tui-data-list-wrapper>
-    </tui-select>
-    <button tuiButton type="button" appearance="secondary" [routerLink]="['/sign-in']">
-      Авторизация
-    </button>
-    <button tuiButton type="button" appearance="primary" (click)="signUp()">Подтвердить</button>
-  </tui-island>
+<div class="tui-row jc-center">
+  <div class="tui-col_md-6">
+    <tui-island textAlign="center" [formGroup]="signUpForm">
+      <tui-input class="tui-space_bottom-4" formControlName="name">ФИО</tui-input>
+      <tui-input class="tui-space_bottom-4" formControlName="email">Почта</tui-input>
+      <tui-input-phone class="tui-space_bottom-4" formControlName="phone">Телефон</tui-input-phone>
+      <tui-input-password class="tui-space_bottom-4" formControlName="password"
+        >Пароль</tui-input-password
+      >
+      <tui-select class="tui-space_bottom-4" formControlName="roleId" [valueContent]="content">
+        Выберите роль
+        <ng-template tuiDataList>
+          <tui-data-list>
+            <button *ngFor="let role of roles" tuiOption [value]="role.id">{{ role.name }}</button>
+          </tui-data-list>
+        </ng-template>
+      </tui-select>
+      <button
+        tuiButton
+        type="button"
+        appearance="secondary"
+        [routerLink]="['/sign-in']"
+        class="tui-space_right-4"
+      >
+        Авторизация
+      </button>
+      <button tuiButton type="button" appearance="primary" (click)="signUp()">Подтвердить</button>
+    </tui-island>
+  </div>
 </div>
-
-<ng-template #roleContent let-role>
-  <div>{{ role.name }}</div>
-</ng-template>

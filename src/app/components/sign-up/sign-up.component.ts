@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
+import { TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiValueContentContext } from '@taiga-ui/core';
 import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
@@ -13,6 +15,8 @@ import { isFormInvalid } from '../../_utils/formValidCheck';
 export class SignUpComponent implements OnInit {
   public signUpForm: FormGroup;
   public roles: IdNameResponse[] = [];
+  public readonly content: TuiStringHandler<TuiValueContentContext<number>> = ({ $implicit: id }) =>
+    this.getRoleById(id) ? `${this.getRoleById(id)?.name}` : '';
 
   constructor(private userService: UserService, private router: Router, private fb: FormBuilder) {
     this.signUpForm = this.fb.group({
@@ -35,7 +39,7 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    const signUpData = this.signUpForm?.getRawValue();
+    const signUpData = this.signUpForm.getRawValue();
     delete signUpData.passwordConfirm;
     this.userService.signUp(signUpData).subscribe(
       (user) => {
@@ -46,5 +50,9 @@ export class SignUpComponent implements OnInit {
       // eslint-disable-next-line no-alert
       ({ error }) => alert(error?.message),
     );
+  }
+
+  private getRoleById(id: number): IdNameResponse | undefined {
+    return this.roles.find((role) => role.id === id);
   }
 }

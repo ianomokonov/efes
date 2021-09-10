@@ -1,10 +1,20 @@
-<div class="tui-container">
-  <tui-island textAlign="center" [formGroup]="logInForm">
-    <tui-input formControlName="login">Логин</tui-input>
-    <tui-input-password formControlName="password">Пароль</tui-input-password>
-    <button tuiButton type="button" appearance="secondary" [routerLink]="['/sign-up']">
-      Регистрация
-    </button>
-    <button tuiButton type="button" appearance="primary" (click)="signIn()">Вход</button>
-  </tui-island>
+<div class="tui-row jc-center">
+  <div class="tui-col_md-6">
+    <tui-island textAlign="center" [formGroup]="logInForm">
+      <tui-input class="tui-space_bottom-4" formControlName="login">Логин</tui-input>
+      <tui-input-password class="tui-space_bottom-4" formControlName="password"
+        >Пароль</tui-input-password
+      >
+      <button
+        tuiButton
+        type="button"
+        appearance="secondary"
+        [routerLink]="['/sign-up']"
+        class="tui-space_right-4"
+      >
+        Регистрация
+      </button>
+      <button tuiButton type="button" appearance="primary" (click)="signIn()">Вход</button>
+    </tui-island>
+  </div>
 </div>
