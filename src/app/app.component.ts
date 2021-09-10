@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component } from '@angular/core';
 import { UserService } from './_services/back/user.service';
 import { TokenService } from './_services/front/token.service';
 
@@ -8,19 +7,10 @@ import { TokenService } from './_services/front/token.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   public title = 'efes';
-  public items: MenuItem[] = [];
 
   constructor(public tokenService: TokenService, private userService: UserService) {}
-
-  public ngOnInit() {
-    this.items = [
-      { label: 'Главная', routerLink: 'home' },
-      { label: 'Тарифы', routerLink: 'rates' },
-      { label: 'Отзывы', routerLink: 'feedback' },
-    ];
-  }
 
   public onExit() {
     this.userService.signOut().subscribe();
