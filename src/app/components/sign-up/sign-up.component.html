@@ -1,113 +1,45 @@
-<div class="grid mt-6">
-  <p-card class="col-8 m-auto">
-    <div class="grid">
-      <h3 class="col-6 m-auto text-center">Регистрация</h3>
-    </div>
-    <div [formGroup]="signUpForm">
-      <div class="col-12 flex justify-content-center">
-        <span class="w-12">
-          <input
-            pInputText
-            type="email"
-            placeholder="Почта"
-            id="email"
-            formControlName="email"
-            x-autocompletetype="”email”"
-          />
-        </span>
+<div class="tui-row jc-center">
+  <div class="tui-col_md-6">
+    <tui-island textAlign="center" [formGroup]="signUpForm">
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="name">ФИО</tui-input>
+        <tui-field-error formControlName="name"></tui-field-error>
       </div>
-      <div class="col-12 flex justify-content-center">
-        <span class="w-12">
-          <p-inputMask
-            inputId="phone_field"
-            styleClass="padding-left"
-            placeholder="Телефон"
-            type="tel"
-            mask="+7 (999) 999-99-99"
-            formControlName="phone"
-            autocomplete="tel"
-          ></p-inputMask>
-        </span>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="email">Почта</tui-input>
+        <tui-field-error formControlName="email"></tui-field-error>
       </div>
-      <div class="col-12 flex justify-content-center">
-        <span class="w-12">
-          <input
-            pInputText
-            type="text"
-            id="login"
-            placeholder="Login"
-            formControlName="login"
-            autocomplete="off"
-          />
-        </span>
+      <div class="tui-space_bottom-4">
+        <tui-input-phone formControlName="phone">Телефон</tui-input-phone>
+        <tui-field-error formControlName="phone"></tui-field-error>
       </div>
-      <div class="col-12 flex justify-content-center">
-        <div class="p-inputgroup">
-          <input
-            pInputText
-            placeholder="Пароль"
-            [type]="showPassword ? 'text' : 'password'"
-            id="password_field"
-            formControlName="password"
-          />
-          <span
-            class="p-inputgroup-addon pointer"
-            (mousedown)="showPassword = true"
-            (mouseup)="showPassword = false"
-          >
-            <i class="pi" [ngClass]="showPassword ? 'pi-eye' : 'pi-eye-slash'"></i>
-          </span>
-        </div>
+      <div class="tui-space_bottom-4">
+        <tui-input-password formControlName="password">Пароль</tui-input-password>
+        <tui-field-error formControlName="password"></tui-field-error>
       </div>
-      <div class="col-12 flex flex-column justify-content-center">
-        <div class="p-inputgroup">
-          <input
-            pInputText
-            placeholder="Повторите пароль"
-            [type]="showPasswordConfirm ? 'text' : 'password'"
-            id="password_confirm"
-            [ngClass]="signUpForm.hasError('notSame') ? 'ng-invalid' : ''"
-            formControlName="passwordConfirm"
-          />
-          <span
-            class="p-inputgroup-addon pointer"
-            (mousedown)="showPasswordConfirm = true"
-            (mouseup)="showPasswordConfirm = false"
-          >
-            <i class="pi" [ngClass]="showPasswordConfirm ? 'pi-eye' : 'pi-eye-slash'"></i>
-          </span>
-        </div>
-        <span
-          *ngIf="signUpForm.hasError('notSame') && signUpForm.get('passwordConfirm')?.dirty"
-          class="p-error mt-2"
-          >Пароли не совпадают</span
-        >
+      <div class="tui-space_bottom-4">
+        <tui-select formControlName="roleId" [valueContent]="content">
+          Выберите роль
+          <ng-template tuiDataList>
+            <tui-data-list>
+              <button *ngFor="let role of roles" tuiOption [value]="role.id">
+                {{ role.name }}
+              </button>
+            </tui-data-list>
+          </ng-template>
+        </tui-select>
+        <tui-field-error formControlName="roleId"></tui-field-error>
       </div>
-      <div class="mb-3 col-12 flex flex-column justify-content-center">
-        <div class="p-inputgroup">
-          <p-dropdown
-            class="w-12"
-            [options]="roles"
-            formControlName="roleId"
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Роль"
-          ></p-dropdown>
-        </div>
-      </div>
-    </div>
-    <div class="flex justify-content-center">
-      <p-button
-        label="Авторизация"
-        styleClass="p-button-primary"
+      <button
+        tuiButton
+        type="button"
+        appearance="secondary"
         [routerLink]="['/sign-in']"
-      ></p-button>
-      <p-button
-        type="submit"
-        label="Подтвердить"
-        styleClass="p-button-success ml-2"
-        (onClick)="signUp()"
-      ></p-button>
-    </div>
-  </p-card>
+        class="tui-space_right-4"
+      >
+        Авторизация
+      </button>
+      <button tuiButton type="button" appearance="primary" (click)="signUp()">Подтвердить</button>
+    </tui-island>
+  </div>
 </div>

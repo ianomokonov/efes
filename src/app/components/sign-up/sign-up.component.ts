@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
+import { TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiValueContentContext } from '@taiga-ui/core';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
@@ -16,25 +12,30 @@ import { isFormInvalid } from '../../_utils/formValidCheck';
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.less'],
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        required: 'Заполните поле',
+        email: 'Email некорректен',
+      },
+    },
+  ],
 })
 export class SignUpComponent implements OnInit {
   public signUpForm: FormGroup;
-  public showPassword = false;
-  public showPasswordConfirm = false;
   public roles: IdNameResponse[] = [];
+  public readonly content: TuiStringHandler<TuiValueContentContext<number>> = ({ $implicit: id }) =>
+    this.getRoleById(id) ? `${this.getRoleById(id)?.name}` : '';
 
   constructor(private userService: UserService, private router: Router, private fb: FormBuilder) {
-    this.signUpForm = this.fb.group(
-      {
-        email: ['', [Validators.email, Validators.required]],
-        login: ['', [Validators.required]],
-        phone: [''],
-        password: ['', [Validators.required]],
-        passwordConfirm: [''],
-        roleId: [null, Validators.required],
-      },
-      { validators: this.checkPasswords },
-    );
+    this.signUpForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.email, Validators.required]],
+      phone: [''],
+      password: ['', [Validators.required]],
+      roleId: [null, Validators.required],
+    });
   }
 
   public ngOnInit(): void {
@@ -48,7 +49,7 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    const signUpData = this.signUpForm?.getRawValue();
+    const signUpData = this.signUpForm.getRawValue();
     delete signUpData.passwordConfirm;
     this.userService.signUp(signUpData).subscribe(
       (user) => {
@@ -61,9 +62,7 @@ export class SignUpComponent implements OnInit {
     );
   }
 
-  private checkPasswords: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
-    const pass = group.get('password')?.value;
-    const confirmPass = group.get('passwordConfirm')?.value;
-    return pass === confirmPass ? null : { notSame: true };
-  };
+  private getRoleById(id: number): IdNameResponse | undefined {
+    return this.roles.find((role) => role.id === id);
+  }
 }
