@@ -1,33 +1,10 @@
-<div class='grid mt-6'>
-<!--  <p-card class='col-8 m-auto'>-->
-<!--    <div class='grid'>-->
-<!--      <h3 class='col-6 m-auto text-center'>Авторизация</h3>-->
-<!--    </div>-->
-<!--    <div [formGroup]='logInForm'>-->
-<!--      <div class="col-12">-->
-<!--      <span class="p-input-icon-left block">-->
-<!--          <i class="pi pi-user"></i>-->
-<!--          <input pInputText-->
-<!--                 type="text"-->
-<!--                 placeholder="Логин"-->
-<!--                 id="login_field"-->
-<!--                 formControlName='login'>-->
-<!--      </span>-->
-<!--      </div>-->
-<!--      <div class="mb-3 col-12">-->
-<!--      <span class="p-input-icon-left block">-->
-<!--          <i class="pi pi-lock"></i>-->
-<!--          <input pInputText-->
-<!--                 type="password"-->
-<!--                 id="password_field"-->
-<!--                 placeholder="Пароль"-->
-<!--                 formControlName='password'>-->
-<!--      </span>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class='flex justify-content-center'>-->
-<!--      <p-button label="Регистрация" styleClass="p-button-primary" [routerLink]='["/sign-up"]'></p-button>-->
-<!--      <p-button label="Вход" styleClass="p-button-success ml-2" (onClick)='signIn()'></p-button>-->
-<!--    </div>-->
-<!--  </p-card>-->
+<div class="tui-container">
+  <tui-island textAlign="center" [formGroup]="logInForm">
+    <tui-input formControlName="login">Логин</tui-input>
+    <tui-input-password formControlName="password">Пароль</tui-input-password>
+    <button tuiButton type="button" appearance="secondary" [routerLink]="['/sign-up']">
+      Регистрация
+    </button>
+    <button tuiButton type="button" appearance="primary" (click)="signIn()">Вход</button>
+  </tui-island>
 </div>

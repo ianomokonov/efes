@@ -5,12 +5,22 @@ import {
   TuiNotificationsModule,
   TUI_SANITIZER,
   TuiButtonModule,
+  TuiLinkModule,
+  TuiDataListModule,
 } from '@taiga-ui/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  TuiDataListWrapperModule,
+  TuiInputModule,
+  TuiInputPasswordModule,
+  TuiInputPhoneModule,
+  TuiIslandModule,
+  TuiSelectModule,
+} from '@taiga-ui/kit';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
@@ -30,6 +40,14 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
     TuiDialogModule,
     TuiNotificationsModule,
     TuiButtonModule,
+    TuiLinkModule,
+    TuiIslandModule,
+    TuiInputModule,
+    TuiInputPasswordModule,
+    TuiInputPhoneModule,
+    TuiSelectModule,
+    TuiDataListModule,
+    TuiDataListWrapperModule,
   ],
   providers: [
     {
