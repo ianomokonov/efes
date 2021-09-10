@@ -1,8 +1,7 @@
-export interface User {
+export interface SaveUserRequest {
   name: string;
   surname: string;
   lastname: string;
-  email: string;
   phone?: string;
   roleId: number;
 }

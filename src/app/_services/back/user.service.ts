@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TokensResponse } from 'src/app/_models/responses/tokens.response';
 import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
+import { LoginRequest } from 'src/app/_models/requests/login.request';
+import { CreateUserRequest } from 'src/app/_models/requests/create-user.request';
+import { SaveUserRequest } from 'src/app/_models/requests/save-user.request';
 import { TokenService } from '../front/token.service';
 import { environment } from '../../../environments/environment';
 import { User } from '../../_entities/user.entity';
@@ -22,7 +25,7 @@ export class UserService {
     private router: Router,
   ) {}
 
-  public signIn(data: any): Observable<TokensResponse> {
+  public signIn(data: LoginRequest): Observable<TokensResponse> {
     return this.http.post<TokensResponse>(`${this.baseUrl}/login`, data).pipe(
       tap((tokens) => {
         this.authService.storeTokens(tokens);
@@ -51,7 +54,7 @@ export class UserService {
     );
   }
 
-  public signUp(data: any): Observable<TokensResponse> {
+  public signUp(data: CreateUserRequest): Observable<TokensResponse> {
     return this.http.post<TokensResponse>(`${this.baseUrl}/sign-up`, data).pipe(
       tap((tokens) => {
         this.authService.storeTokens(tokens);
@@ -60,7 +63,7 @@ export class UserService {
   }
 
   public getUserInfo(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/user/user-info`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/user`).pipe(
       tap((user) => {
         this.user = user;
       }),
@@ -73,6 +76,10 @@ export class UserService {
 
   public refreshPassword(email: string): Observable<boolean> {
     return this.http.post<boolean>(`${this.baseUrl}/update-password`, { email });
+  }
+
+  public updateUser(request: SaveUserRequest): Observable<boolean> {
+    return this.http.put<boolean>(`${this.baseUrl}/user`, request);
   }
 
   public refreshToken(token: string): Observable<TokensResponse> {
