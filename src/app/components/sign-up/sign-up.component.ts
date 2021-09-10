@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
 import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiValueContentContext } from '@taiga-ui/core';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
@@ -11,6 +12,15 @@ import { isFormInvalid } from '../../_utils/formValidCheck';
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.less'],
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        required: 'Заполните поле',
+        email: 'Email некорректен',
+      },
+    },
+  ],
 })
 export class SignUpComponent implements OnInit {
   public signUpForm: FormGroup;

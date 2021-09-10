@@ -1,10 +1,14 @@
 <div class="tui-row jc-center">
   <div class="tui-col_md-6">
     <tui-island textAlign="center" [formGroup]="logInForm">
-      <tui-input class="tui-space_bottom-4" formControlName="login">Логин</tui-input>
-      <tui-input-password class="tui-space_bottom-4" formControlName="password"
-        >Пароль</tui-input-password
-      >
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="login">Логин</tui-input>
+        <tui-field-error formControlName="login"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input-password formControlName="password">Пароль</tui-input-password>
+        <tui-field-error formControlName="password"></tui-field-error>
+      </div>
       <button
         tuiButton
         type="button"

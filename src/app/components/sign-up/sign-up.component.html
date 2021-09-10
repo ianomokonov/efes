@@ -1,20 +1,35 @@
 <div class="tui-row jc-center">
   <div class="tui-col_md-6">
     <tui-island textAlign="center" [formGroup]="signUpForm">
-      <tui-input class="tui-space_bottom-4" formControlName="name">ФИО</tui-input>
-      <tui-input class="tui-space_bottom-4" formControlName="email">Почта</tui-input>
-      <tui-input-phone class="tui-space_bottom-4" formControlName="phone">Телефон</tui-input-phone>
-      <tui-input-password class="tui-space_bottom-4" formControlName="password"
-        >Пароль</tui-input-password
-      >
-      <tui-select class="tui-space_bottom-4" formControlName="roleId" [valueContent]="content">
-        Выберите роль
-        <ng-template tuiDataList>
-          <tui-data-list>
-            <button *ngFor="let role of roles" tuiOption [value]="role.id">{{ role.name }}</button>
-          </tui-data-list>
-        </ng-template>
-      </tui-select>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="name">ФИО</tui-input>
+        <tui-field-error formControlName="name"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="email">Почта</tui-input>
+        <tui-field-error formControlName="email"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input-phone formControlName="phone">Телефон</tui-input-phone>
+        <tui-field-error formControlName="phone"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input-password formControlName="password">Пароль</tui-input-password>
+        <tui-field-error formControlName="password"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-select formControlName="roleId" [valueContent]="content">
+          Выберите роль
+          <ng-template tuiDataList>
+            <tui-data-list>
+              <button *ngFor="let role of roles" tuiOption [value]="role.id">
+                {{ role.name }}
+              </button>
+            </tui-data-list>
+          </ng-template>
+        </tui-select>
+        <tui-field-error formControlName="roleId"></tui-field-error>
+      </div>
       <button
         tuiButton
         type="button"

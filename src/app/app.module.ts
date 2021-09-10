@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {
   TuiDataListWrapperModule,
+  TuiFieldErrorModule,
   TuiInputModule,
   TuiInputPasswordModule,
   TuiInputPhoneModule,
@@ -52,6 +53,7 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
     TuiDataListModule,
     TuiDataListWrapperModule,
     TuiLabelModule,
+    TuiFieldErrorModule,
   ],
   providers: [
     {
