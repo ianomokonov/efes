@@ -119,6 +119,26 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user) {
             }
         });
 
+        $userGroup->post('/company-info', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->addCompanyInfo($request->getAttribute('userId'), $request->getParsedBody())));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка добавления компании")));
+                return $response->withStatus(401);
+            }
+        });
+
+        $userGroup->put('/company-info', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->updateCompanyInfo($request->getAttribute('userId'), $request->getParsedBody())));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка изменения компании")));
+                return $response->withStatus(401);
+            }
+        });
+
         $userGroup->put('', function (Request $request, Response $response) use ($user) {
             try {
                 $response->getBody()->write(json_encode($user->update($request->getAttribute('userId'), $request->getParsedBody())));

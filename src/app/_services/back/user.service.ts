@@ -9,6 +9,7 @@ import { LoginRequest } from 'src/app/_models/requests/login.request';
 import { CreateUserRequest } from 'src/app/_models/requests/create-user.request';
 import { SaveUserRequest } from 'src/app/_models/requests/save-user.request';
 import { ProfileResponse } from 'src/app/_models/responses/profile.response';
+import { SaveCompanyRequest } from 'src/app/_models/requests/save-company.request';
 import { TokenService } from '../front/token.service';
 import { environment } from '../../../environments/environment';
 import { User } from '../../_entities/user.entity';
@@ -97,5 +98,13 @@ export class UserService {
 
   public setNewPassword(password: string) {
     return this.http.post(`${this.baseUrl}/user/update-password`, { password });
+  }
+
+  public addCompanyInfo(request: SaveCompanyRequest): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/user/company-info`, request);
+  }
+
+  public updateCompanyInfo(request: SaveCompanyRequest): Observable<boolean> {
+    return this.http.put<boolean>(`${this.baseUrl}/user/company-info`, request);
   }
 }

@@ -29,7 +29,7 @@ class DataBase
         return $res;
     }
 
-    public function genUpdateQuery($data, $t, $id)
+    public function genUpdateQuery($data, $t, $id, $idField = "id")
     {
         $data = (array) $data;
         $keys = array_keys($data);
@@ -44,7 +44,7 @@ class DataBase
             }
         }
         $res[0] = rtrim($res[0], ', ');
-        $res[0] = $res[0] . ' WHERE Id = ' . $id;
+        $res[0] = $res[0] . ' WHERE '.$idField.' = ' . $id;
 
         return $res;
     }

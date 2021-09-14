@@ -34,6 +34,31 @@ CREATE TABLE `User` (
 );
 
 -- ---
+-- Table 'UserCompany'
+-- 
+-- ---
+DROP TABLE IF EXISTS `UserCompany`;
+CREATE TABLE `UserCompany` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `userId` INTEGER(10) NOT NULL,
+  `name` VARCHAR(200) NOT NULL,
+  `legalAddress` TEXT NOT NULL,
+  `actualAddress` TEXT NOT NULL,
+  `createDate` DATETIME NOT NULL,
+  `taxRegistrationDate` DATETIME NOT NULL,
+  `inn` VARCHAR(200) NOT NULL,
+  `correspondentAccount` VARCHAR(200) NOT NULL,
+  `ogrn` VARCHAR(200) NOT NULL,
+  `bic` VARCHAR(200) NOT NULL,
+  `account` VARCHAR(200) NOT NULL,
+  `certificateOfProduction` VARCHAR(200) NOT NULL,
+  `certificateOfRegistration` VARCHAR(200) NOT NULL,
+  `structureDescription` TEXT NOT NULL,
+  `annualTurnover` TEXT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
 -- Table 'RefreshTokens'
 -- 
 -- ---
@@ -80,6 +105,8 @@ ALTER TABLE `UserDocument`
 ADD FOREIGN KEY (userId) REFERENCES `User` (`id`);
 ALTER TABLE `UserDocument`
 ADD FOREIGN KEY (documentId) REFERENCES `Document` (`id`);
+ALTER TABLE `UserCompany`
+ADD FOREIGN KEY (userId) REFERENCES `User` (`id`);
 
 
 

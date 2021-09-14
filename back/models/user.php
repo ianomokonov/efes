@@ -67,27 +67,28 @@ class User
     public function getProfileInfo($userId)
     {
         $info = array(
-            "documents"=> $this->getDocuments($userId),
+            "documents" => $this->getDocuments($userId),
+            "company" => $this->getComponyInfo($userId),
             "completeOrders" => [
-                array("value"=>1000, "date"=>"01.07.21"),
-                array("value"=>1500, "date"=>"08.07.21"),
-                array("value"=>900, "date"=>"15.07.21"),
-                array("value"=>1200, "date"=>"22.07.21"),
-                array("value"=>1800, "date"=>"29.07.21")
+                array("value" => 1000, "date" => "01.07.21"),
+                array("value" => 1500, "date" => "08.07.21"),
+                array("value" => 900, "date" => "15.07.21"),
+                array("value" => 1200, "date" => "22.07.21"),
+                array("value" => 1800, "date" => "29.07.21")
             ],
             "views" => [
-                array("value"=>1000, "date"=>"01.07.21"),
-                array("value"=>1500, "date"=>"08.07.21"),
-                array("value"=>900, "date"=>"15.07.21"),
-                array("value"=>1200, "date"=>"22.07.21"),
-                array("value"=>1800, "date"=>"29.07.21")
+                array("value" => 1000, "date" => "01.07.21"),
+                array("value" => 1500, "date" => "08.07.21"),
+                array("value" => 900, "date" => "15.07.21"),
+                array("value" => 1200, "date" => "22.07.21"),
+                array("value" => 1800, "date" => "29.07.21")
             ],
             "totalSums" => [
-                array("value"=>10000, "date"=>"01.07.21"),
-                array("value"=>14000, "date"=>"08.07.21"),
-                array("value"=>9000, "date"=>"15.07.21"),
-                array("value"=>13000, "date"=>"22.07.21"),
-                array("value"=>15000, "date"=>"29.07.21")
+                array("value" => 10000, "date" => "01.07.21"),
+                array("value" => 14000, "date" => "08.07.21"),
+                array("value" => 9000, "date" => "15.07.21"),
+                array("value" => 13000, "date" => "22.07.21"),
+                array("value" => 15000, "date" => "29.07.21")
             ],
         );
         return $info;
@@ -96,8 +97,54 @@ class User
     private function getDocuments($userId)
     {
         $query = "SELECT d.id, d.name, files.file FROM (SELECT file, documentId FROM UserDocument WHERE userId = $userId) as files RIGHT JOIN Document d ON d.id=files.documentId ORDER BY d.id";
-        $user = $this->dataBase->db->query($query)->fetch();
         return $this->dataBase->db->query($query)->fetchAll();
+    }
+
+    private function getComponyInfo($userId)
+    {
+        $query = "SELECT * FROM UserCompany WHERE userId=$userId";
+        $company = $this->dataBase->db->query($query)->fetch();
+        if ($company) {
+            $company['createDate'] = $company['createDate'] ? date("Y/m/d H:i:s", strtotime($company['createDate'])) : null;
+            $company['taxRegistrationDate'] = $company['taxRegistrationDate'] ? date("Y/m/d H:i:s", strtotime($company['taxRegistrationDate'])) : null;
+            unset($company['id']);
+            unset($company['userId']);
+            return $company;
+        }
+        return null;
+    }
+
+    public function addCompanyInfo($userId, $data)
+    {
+        $data = $this->dataBase->stripAll((array)$data);
+        $data['userId'] = $userId;
+        $query = $this->dataBase->genInsertQuery(
+            $data,
+            "UserCompany"
+        );
+
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+
+        return true;
+    }
+
+    public function updateCompanyInfo($userId, $request)
+    {
+        $request = $this->dataBase->stripAll((array)$request);
+
+        $query = $this->dataBase->genUpdateQuery(
+            $request,
+            "UserCompany",
+            $userId,
+            "userId"
+        );
+
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        $stmt->execute($query[1]);
+        return true;
     }
 
     public function update($userId, $request)
