@@ -44,7 +44,7 @@ class DataBase
             }
         }
         $res[0] = rtrim($res[0], ', ');
-        $res[0] = $res[0] . ' WHERE '.$idField.' = ' . $id;
+        $res[0] = $res[0] . ' WHERE ' . $idField . ' = ' . $id;
 
         return $res;
     }
@@ -55,5 +55,10 @@ class DataBase
             $object[$key] = htmlspecialchars(strip_tags($object[$key]));
         }
         return $object;
+    }
+
+    public function strip($param)
+    {
+        return htmlspecialchars(strip_tags($param));
     }
 }

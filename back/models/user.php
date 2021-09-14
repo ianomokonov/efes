@@ -68,7 +68,7 @@ class User
     {
         $info = array(
             "documents" => $this->getDocuments($userId),
-            "company" => $this->getComponyInfo($userId),
+            "company" => $this->getCompanyInfo($userId),
             "completeOrders" => [
                 array("value" => 1000, "date" => "01.07.21"),
                 array("value" => 1500, "date" => "08.07.21"),
@@ -100,7 +100,54 @@ class User
         return $this->dataBase->db->query($query)->fetchAll();
     }
 
-    private function getComponyInfo($userId)
+    private function getDocumentFile($userId, $documentId)
+    {
+        $query = "SELECT file FROM UserDocument WHERE userId = $userId AND documentId=$documentId";
+        $stmt = $this->dataBase->db->query($query);
+
+        return $stmt->fetch()['file'];
+    }
+
+    public function addDocument($userId, $document, $file)
+    {
+        if(!$file){
+            throw new Exception('Загрузите файл');
+        }
+        $document = $this->dataBase->stripAll((array)$document);
+        $userFile = $this->getDocumentFile($userId, $document['documentId']);
+        if ($userFile) {
+            $this->fileUploader->removeFile($userFile);
+        }
+        $userFile = json_encode($this->fileUploader->upload($file, 'UserFiles', uniqid()));
+        $query = $this->dataBase->genInsertQuery(
+            array(
+                "userId" => $userId,
+                "documentId" => $document['documentId'],
+                "file" => $userFile
+            ),
+            "UserDocument"
+        );
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+
+        return $userFile;
+    }
+
+    public function deleteDocument($userId, $documentId)
+    {
+        $documentId = $this->dataBase->strip($documentId);
+        $userFile = $this->getDocumentFile($userId, $documentId);
+        if ($userFile) {
+            $this->fileUploader->removeFile($userFile);
+            $query = "DELETE FROM UserDocument WHERE userId=$userId AND documentId=$documentId";
+            $this->dataBase->db->query($query);
+        }
+        return true;
+    }
+
+    private function getCompanyInfo($userId)
     {
         $query = "SELECT * FROM UserCompany WHERE userId=$userId";
         $company = $this->dataBase->db->query($query)->fetch();

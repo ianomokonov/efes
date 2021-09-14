@@ -119,6 +119,30 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user) {
             }
         });
 
+        $userGroup->put('/document', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->addDocument($request->getAttribute('userId'), $request->getParsedBody(), $_FILES['file'])));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
+
+        $userGroup->delete('/document/{documentId}', function (Request $request, Response $response) use ($user) {
+            try {
+
+                $routeContext = RouteContext::fromRequest($request);
+                $route = $routeContext->getRoute();
+                $documentId = $route->getArgument('documentId');
+                $response->getBody()->write(json_encode($user->deleteDocument($request->getAttribute('userId'), $documentId)));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
+
         $userGroup->post('/company-info', function (Request $request, Response $response) use ($user) {
             try {
                 $response->getBody()->write(json_encode($user->addCompanyInfo($request->getAttribute('userId'), $request->getParsedBody())));

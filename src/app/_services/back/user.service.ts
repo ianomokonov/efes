@@ -107,4 +107,19 @@ export class UserService {
   public updateCompanyInfo(request: SaveCompanyRequest): Observable<boolean> {
     return this.http.put<boolean>(`${this.baseUrl}/user/company-info`, request);
   }
+
+  /**
+   * Добавление и изменения досумента пользователя
+   * @param request FormData с ключами:
+   * { file: File,
+   * documentId: number }
+   * @returns путь до созданного файла
+   */
+  public saveDocument(request: FormData): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/user/document`, request);
+  }
+
+  public deleteDocument(documentId: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.baseUrl}/user/document/${documentId}`);
+  }
 }
