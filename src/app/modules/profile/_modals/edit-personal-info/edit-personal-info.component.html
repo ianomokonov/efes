@@ -1,0 +1,37 @@
+<div class="tui-row jc-center" [formGroup]="userForm">
+  <div class="tui-col_md-6">
+    <div class="tui-space_bottom-4">
+      <tui-input formControlName="surname">Фамилия</tui-input>
+      <tui-field-error formControlName="surname"></tui-field-error>
+    </div>
+    <div class="tui-space_bottom-4">
+      <tui-input formControlName="name">Имя</tui-input>
+      <tui-field-error formControlName="name"></tui-field-error>
+    </div>
+    <div class="tui-space_bottom-4">
+      <tui-input formControlName="lastname">Отчество</tui-input>
+      <tui-field-error formControlName="lastname"></tui-field-error>
+    </div>
+    <div class="tui-space_bottom-4">
+      <tui-input formControlName="email">Почта</tui-input>
+      <tui-field-error formControlName="email"></tui-field-error>
+    </div>
+    <div class="tui-space_bottom-4">
+      <tui-input-phone formControlName="phone">Телефон</tui-input-phone>
+      <tui-field-error formControlName="phone"></tui-field-error>
+    </div>
+    <div class="tui-space_bottom-4">
+      <tui-select formControlName="roleId" [valueContent]="content">
+        Выберите роль
+        <ng-template tuiDataList>
+          <tui-data-list>
+            <button *ngFor="let role of roles" tuiOption [value]="role.id">
+              {{ role.name }}
+            </button>
+          </tui-data-list>
+        </ng-template>
+      </tui-select>
+      <tui-field-error formControlName="roleId"></tui-field-error>
+    </div>
+  </div>
+</div>

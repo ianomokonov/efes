@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 70%;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  border-radius: 0.75rem;
+  background: var(--tui-base-01);
+  animation: tuiReveal var(--tui-duration), tuiFadeIn var(--tui-duration);
+}
+
+.close-button {
+  position: absolute;
+  top: -2rem;
+  right: -1rem;
+  &:hover {
+    cursor: pointer;
+    color: #b2050e;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 0;
+}

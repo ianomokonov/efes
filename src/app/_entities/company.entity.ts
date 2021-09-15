@@ -13,4 +13,5 @@ export interface Company {
   certificateOfRegistration: string;
   structureDescription: string;
   annualTurnover: string;
+  additionalInfo: string;
 }

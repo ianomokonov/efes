@@ -1,0 +1,20 @@
+<div [id]="context.id">
+  <div class="relative">
+    <h2>{{ context.heading }}</h2>
+    <div class="close-button">
+      <tui-svg src="tuiIconRemoveLarge" (click)="onClick(false)"></tui-svg>
+    </div>
+  </div>
+  <section polymorpheus-outlet [content]="context.content" [context]="context"></section>
+  <div class="buttons">
+    <button
+      *ngFor="let button of context.buttons"
+      tuiButton
+      class="tui-space_right-3"
+      [appearance]="button.appearance ? button.appearance : 'primary'"
+      (click)="button.voidType ? button.value() : onClick(button.value)"
+    >
+      {{ button.label }}
+    </button>
+  </div>
+</div>

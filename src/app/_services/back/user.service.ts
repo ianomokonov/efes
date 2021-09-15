@@ -55,7 +55,7 @@ export class UserService {
       tap(() => {
         this.authService.removeTokens();
         delete this.user;
-        this.router.navigate(['/']);
+        this.router.navigate(['/sign-in']);
       }),
     );
   }
@@ -97,7 +97,7 @@ export class UserService {
   }
 
   public setNewPassword(password: string) {
-    return this.http.post(`${this.baseUrl}/user/update-password`, { password });
+    return this.http.post(`${this.baseUrl}/update-password`, { password });
   }
 
   public addCompanyInfo(request: SaveCompanyRequest): Observable<boolean> {
@@ -116,7 +116,7 @@ export class UserService {
    * @returns путь до созданного файла
    */
   public saveDocument(request: FormData): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/user/document`, request);
+    return this.http.put<string>(`${this.baseUrl}/user/document`, request);
   }
 
   public deleteDocument(documentId: number): Observable<boolean> {
