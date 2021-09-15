@@ -55,6 +55,7 @@ CREATE TABLE `UserCompany` (
   `certificateOfRegistration` VARCHAR(200) NOT NULL,
   `structureDescription` TEXT NOT NULL,
   `annualTurnover` TEXT NOT NULL,
+  `additionalInfo` TEXT NULL,
   PRIMARY KEY (`id`)
 );
 
