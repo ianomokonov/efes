@@ -4,7 +4,7 @@ import {
   Component,
   Inject,
   Injector,
-  OnInit,
+  Input,
 } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -12,7 +12,6 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { UserService } from '../../../_services/back/user.service';
-import { ProfileResponse } from '../../../_models/responses/profile.response';
 import { ModalService } from '../../../components/modal/modal.service';
 import { PersonalAboutComponent } from '../_modals/personal-about/personal-about.component';
 import { baseModalButton, firstLetterLowerCase } from '../../../_utils/constants';
@@ -21,14 +20,17 @@ import { FilesComponent } from '../_modals/files/files.component';
 import { Company } from '../../../_entities/company.entity';
 
 @Component({
-  selector: 'app-additional-info',
+  selector: 'efes-additional-info',
   templateUrl: './additional-info.component.html',
   styleUrls: ['./additional-info.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class AdditionalInfoComponent implements OnInit {
-  public profile: ProfileResponse | undefined;
+export class AdditionalInfoComponent {
+  @Input()
+  public company: Company | null | undefined;
+  @Input()
+  public documents: Document[] | undefined;
   constructor(
     private userService: UserService,
     private modalService: ModalService,
@@ -39,24 +41,17 @@ export class AdditionalInfoComponent implements OnInit {
     private readonly notificationsService: TuiNotificationsService,
   ) {}
 
-  ngOnInit(): void {
-    this.userService.getProfileInfo().subscribe((profile) => {
-      this.profile = profile;
-      this.cdr.detectChanges();
-    });
-  }
-
   public openPersonalAbout(): void {
     this.modalService
       .open<Company | boolean>(new PolymorpheusComponent(PersonalAboutComponent, this.injector), {
         heading: 'Сведения о компании',
         buttons: baseModalButton,
-        data: this.profile?.company,
+        data: this.company,
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe((company) => {
-        if (typeof company !== 'boolean' && this.profile) {
-          this.profile.company = company;
+        if (typeof company !== 'boolean' && this.company) {
+          this.company = company;
           this.cdr.detectChanges();
         }
       });

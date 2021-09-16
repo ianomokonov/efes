@@ -8,7 +8,7 @@ import { ModalOptions } from '../../../../components/modal/modal.interface';
 import { UserService } from '../../../../_services/back/user.service';
 
 @Component({
-  selector: 'app-files',
+  selector: 'efes-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,

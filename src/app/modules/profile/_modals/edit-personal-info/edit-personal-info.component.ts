@@ -22,7 +22,7 @@ import { ModalService } from '../../../../components/modal/modal.service';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @Component({
-  selector: 'app-edit-personal-info',
+  selector: 'efes-edit-personal-info',
   templateUrl: './edit-personal-info.component.html',
   styleUrls: ['./edit-personal-info.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +40,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 export class EditPersonalInfoComponent implements OnInit {
   public userForm: FormGroup;
   public roles: IdNameResponse[] = [];
-  private user: User | undefined;
+  private readonly user: User | undefined;
   public readonly content: TuiStringHandler<TuiValueContentContext<number>> = ({ $implicit: id }) =>
     this.getRoleById(id) ? `${this.getRoleById(id)?.name}` : '';
   constructor(

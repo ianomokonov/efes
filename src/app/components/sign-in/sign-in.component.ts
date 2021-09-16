@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
@@ -6,9 +6,10 @@ import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'efes-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: TUI_VALIDATION_ERRORS,

@@ -5,7 +5,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { ModalOptions } from './modal.interface';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'efes-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,

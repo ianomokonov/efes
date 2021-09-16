@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDay, TuiDestroyService, TuiDialog } from '@taiga-ui/cdk';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,9 +11,10 @@ import { UserService } from '../../../../_services/back/user.service';
 import { SaveCompanyRequest } from '../../../../_models/requests/save-company.request';
 
 @Component({
-  selector: 'app-personal-about',
+  selector: 'efes-personal-about',
   templateUrl: './personal-about.component.html',
   styleUrls: ['./personal-about.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
     {

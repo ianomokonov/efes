@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IdNameResponse } from 'src/app/_models/responses/id-name.response';
@@ -9,9 +9,10 @@ import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'efes-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: TUI_VALIDATION_ERRORS,

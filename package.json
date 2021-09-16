@@ -29,7 +29,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@taiga-ui/addon-charts": "2.16.2",
+    "@swimlane/ngx-charts": "^19.0.1",
     "@taiga-ui/addon-commerce": "2.16.2",
     "@taiga-ui/addon-doc": "2.16.2",
     "@taiga-ui/addon-editor": "2.16.2",

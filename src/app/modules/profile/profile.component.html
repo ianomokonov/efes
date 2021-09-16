@@ -1,9 +1,20 @@
-<div class="tui-row tui-space_vertical-4">
-  <div class="tui-col_md-4">
-    <div class="tui-space_horizontal-2">
-      <app-personal-info></app-personal-info>
-      <app-additional-info></app-additional-info>
+<tui-loader class="loader" [overlay]="true" [showLoader]="loading">
+  <div *ngIf="!loading" class="tui-row tui-space_vertical-4">
+    <div class="tui-col_md-4">
+      <efes-personal-info [user]="user"></efes-personal-info>
+      <efes-additional-info
+        *ngIf="profile"
+        [company]="profile.company"
+        [documents]="profile.documents"
+      ></efes-additional-info>
+    </div>
+    <div class="tui-col_md-8">
+      <efes-statistics
+        *ngIf="profile"
+        [completeOrders]="profile.completeOrders"
+        [views]="profile.views"
+        [totalSums]="profile.totalSums"
+      ></efes-statistics>
     </div>
   </div>
-  <div class="tui-col_md-8"></div>
-</div>
+</tui-loader>

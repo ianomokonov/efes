@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserService } from './_services/back/user.service';
 import { TokenService } from './_services/front/token.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'efes-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   public title = 'efes';

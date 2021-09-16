@@ -1,43 +1,37 @@
-<tui-island>
+<tui-island *ngIf="company">
   <h3 class="tui-island__title">Осталось заполнить</h3>
-  <div *ngIf="profile; else loader">
-    <div class="tui-row tui-space_bottom-2">
-      <span class="tui-col_md-10">Сведения о компании</span>
-      <div class="flex jc-end tui-col_md-2">
-        <tui-svg
-          *ngIf="!profile.company"
-          src="tuiIconPlusCircleLarge"
-          class="pointer"
-          (click)="openPersonalAbout()"
-        ></tui-svg>
-        <tui-svg
-          *ngIf="profile.company"
-          src="tuiIconEditLarge"
-          class="pointer tui-space_right-1"
-          (click)="openPersonalAbout()"
-        ></tui-svg>
-        <tui-svg
-          *ngIf="profile.company"
-          src="tuiIconCheckCircleLarge"
-          class="svg-success"
-        ></tui-svg>
-      </div>
+  <div class="tui-row tui-space_bottom-2">
+    <span class="tui-col_md-10">Сведения о компании</span>
+    <div class="flex jc-end tui-col_md-2">
+      <tui-svg
+        *ngIf="!company"
+        src="tuiIconPlusCircleLarge"
+        class="pointer"
+        (click)="openPersonalAbout()"
+      ></tui-svg>
+      <tui-svg
+        *ngIf="company"
+        src="tuiIconEditLarge"
+        class="pointer tui-space_right-1"
+        (click)="openPersonalAbout()"
+      ></tui-svg>
+      <tui-svg *ngIf="company" src="tuiIconCheckCircleLarge" class="svg-success"></tui-svg>
     </div>
-    <div class="tui-row tui-space_bottom-2" *ngFor="let item of profile.documents">
-      <span class="tui-col_md-10">{{ item.name }}</span>
-      <div class="flex jc-end tui-col_md-2">
-        <tui-svg
-          *ngIf="!item.file"
-          src="tuiIconPlusCircleLarge"
-          class="pointer"
-          (click)="openFileModal(item)"
-        ></tui-svg>
-        <ng-container
-          *ngIf="item.file"
-          [ngTemplateOutlet]="fileButtons"
-          [ngTemplateOutletContext]="{ item: item }"
-        ></ng-container>
-      </div>
+  </div>
+  <div class="tui-row tui-space_bottom-2" *ngFor="let item of documents">
+    <span class="tui-col_md-10">{{ item.name }}</span>
+    <div class="flex jc-end tui-col_md-2">
+      <tui-svg
+        *ngIf="!item.file"
+        src="tuiIconPlusCircleLarge"
+        class="pointer"
+        (click)="openFileModal(item)"
+      ></tui-svg>
+      <ng-container
+        *ngIf="item.file"
+        [ngTemplateOutlet]="fileButtons"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
     </div>
   </div>
 </tui-island>
@@ -49,8 +43,4 @@
     (click)="deleteDocument(item)"
   ></tui-svg>
   <tui-svg src="tuiIconCheckCircleLarge" class="svg-success"></tui-svg>
-</ng-template>
-
-<ng-template #loader>
-  <tui-loader></tui-loader>
 </ng-template>

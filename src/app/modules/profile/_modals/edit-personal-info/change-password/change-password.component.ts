@@ -15,7 +15,7 @@ import { isFormInvalid } from '../../../../../_utils/formValidCheck';
 import { ModalOptions } from '../../../../../components/modal/modal.interface';
 
 @Component({
-  selector: 'app-change-password',
+  selector: 'efes-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
