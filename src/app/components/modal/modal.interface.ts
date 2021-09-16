@@ -1,5 +1,5 @@
 export interface ModalOptions {
-  readonly heading: string;
+  heading: string;
   readonly buttons?: readonly ButtonsInterface[];
   readonly data?: any;
 }

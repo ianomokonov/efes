@@ -1,37 +1,56 @@
-<div class="tui-row jc-center" [formGroup]="userForm">
-  <div class="tui-col_md-6">
-    <div class="tui-space_bottom-4">
-      <tui-input formControlName="surname">Фамилия</tui-input>
-      <tui-field-error formControlName="surname"></tui-field-error>
-    </div>
-    <div class="tui-space_bottom-4">
-      <tui-input formControlName="name">Имя</tui-input>
-      <tui-field-error formControlName="name"></tui-field-error>
-    </div>
-    <div class="tui-space_bottom-4">
-      <tui-input formControlName="lastname">Отчество</tui-input>
-      <tui-field-error formControlName="lastname"></tui-field-error>
-    </div>
-    <div class="tui-space_bottom-4">
-      <tui-input formControlName="email">Почта</tui-input>
-      <tui-field-error formControlName="email"></tui-field-error>
-    </div>
-    <div class="tui-space_bottom-4">
-      <tui-input-phone formControlName="phone">Телефон</tui-input-phone>
-      <tui-field-error formControlName="phone"></tui-field-error>
-    </div>
-    <div class="tui-space_bottom-4">
-      <tui-select formControlName="roleId" [valueContent]="content">
-        Выберите роль
-        <ng-template tuiDataList>
-          <tui-data-list>
-            <button *ngFor="let role of roles" tuiOption [value]="role.id">
-              {{ role.name }}
-            </button>
-          </tui-data-list>
-        </ng-template>
-      </tui-select>
-      <tui-field-error formControlName="roleId"></tui-field-error>
+<ng-container [ngTemplateOutlet]="passwordChanges ? passwordInfo : userInfo"></ng-container>
+
+<ng-template #userInfo>
+  <div class="tui-row jc-center" [formGroup]="userForm">
+    <div class="tui-col_md-6">
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="surname">Фамилия</tui-input>
+        <tui-field-error formControlName="surname"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="name">Имя</tui-input>
+        <tui-field-error formControlName="name"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="lastname">Отчество</tui-input>
+        <tui-field-error formControlName="lastname"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="email">Почта</tui-input>
+        <tui-field-error formControlName="email"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input-phone formControlName="phone">Телефон</tui-input-phone>
+        <tui-field-error formControlName="phone"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-select formControlName="roleId" [valueContent]="content">
+          Выберите роль
+          <ng-template tuiDataList>
+            <tui-data-list>
+              <button *ngFor="let role of roles" tuiOption [value]="role.id">
+                {{ role.name }}
+              </button>
+            </tui-data-list>
+          </ng-template>
+        </tui-select>
+        <tui-field-error formControlName="roleId"></tui-field-error>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
+
+<ng-template #passwordInfo>
+  <div class="tui-row jc-center" [formGroup]="passwordForm">
+    <div class="tui-col_md-6">
+      <div class="tui-space_bottom-4">
+        <tui-input-password formControlName="password">Новый пароль</tui-input-password>
+        <tui-field-error formControlName="password"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input-password formControlName="confirmPassword">Повторите пароль</tui-input-password>
+        <tui-field-error formControlName="confirmPassword"></tui-field-error>
+      </div>
+    </div>
+  </div>
+</ng-template>

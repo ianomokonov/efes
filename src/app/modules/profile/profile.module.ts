@@ -21,7 +21,6 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { PersonalAboutComponent } from './_modals/personal-about/personal-about.component';
 import { FilesComponent } from './_modals/files/files.component';
 import { EditPersonalInfoComponent } from './_modals/edit-personal-info/edit-personal-info.component';
-import { ChangePasswordComponent } from './_modals/edit-personal-info/change-password/change-password.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
@@ -53,7 +52,6 @@ import { StatisticsComponent } from './statistics/statistics.component';
     PersonalAboutComponent,
     FilesComponent,
     EditPersonalInfoComponent,
-    ChangePasswordComponent,
     StatisticsComponent,
   ],
 })
