@@ -10,7 +10,6 @@
     <button
       *ngFor="let button of context.buttons"
       tuiButton
-      class="tui-space_right-3"
       [appearance]="button.appearance ? button.appearance : 'primary'"
       (click)="button.voidType ? button.value() : onClick(button.value)"
     >
