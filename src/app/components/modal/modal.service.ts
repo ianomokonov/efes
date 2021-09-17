@@ -16,12 +16,10 @@ export class ModalService extends AbstractTuiDialogService<ModalOptions> {
         label: 'Нет',
         appearance: 'danger',
         value: false,
-        voidType: false,
       },
       {
         label: 'Да',
         value: true,
-        voidType: false,
       },
     ],
   } as const;

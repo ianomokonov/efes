@@ -1,6 +1,6 @@
 <tui-loader class="loader" [overlay]="true" [showLoader]="loading">
-  <div *ngIf="!loading" class="tui-row tui-space_vertical-4">
-    <div class="tui-col_md-4">
+  <div *ngIf="!loading" class="tui-row tui-row_adaptive tui-space_vertical-4">
+    <div class="tui-col_xs-12 tui-col_md-4">
       <efes-personal-info [user]="user"></efes-personal-info>
       <efes-additional-info
         *ngIf="profile"
@@ -8,7 +8,7 @@
         [documents]="profile.documents"
       ></efes-additional-info>
     </div>
-    <div class="tui-col_md-8">
+    <div class="tui-col_xs-12 tui-col_md-8">
       <efes-statistics
         *ngIf="profile"
         [completeOrders]="profile.completeOrders"

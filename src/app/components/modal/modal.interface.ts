@@ -8,5 +8,5 @@ export interface ButtonsInterface {
   appearance?: string;
   label: string;
   value?: any;
-  voidType: boolean;
+  voidType?: boolean;
 }
