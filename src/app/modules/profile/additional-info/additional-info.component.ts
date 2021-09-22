@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  Injector,
-  Input,
-} from '@angular/core';
+import { Component, Inject, Injector, Input } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -23,7 +16,6 @@ import { Company } from '../../../_entities/company.entity';
   selector: 'efes-additional-info',
   templateUrl: './additional-info.component.html',
   styleUrls: ['./additional-info.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
 export class AdditionalInfoComponent {
@@ -35,7 +27,6 @@ export class AdditionalInfoComponent {
     private userService: UserService,
     private modalService: ModalService,
     private destroy$: TuiDestroyService,
-    private cdr: ChangeDetectorRef,
     @Inject(Injector) private readonly injector: Injector,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
@@ -45,6 +36,7 @@ export class AdditionalInfoComponent {
     this.modalService
       .open<Company | boolean>(new PolymorpheusComponent(PersonalAboutComponent, this.injector), {
         heading: 'Сведения о компании',
+        modalWidth: 50,
         buttons: baseModalButton,
         data: this.company,
       })
@@ -52,7 +44,6 @@ export class AdditionalInfoComponent {
       .subscribe((company) => {
         if (typeof company !== 'boolean' && this.company) {
           this.company = company;
-          this.cdr.detectChanges();
         }
       });
   }
@@ -61,6 +52,7 @@ export class AdditionalInfoComponent {
     this.modalService
       .open<string>(new PolymorpheusComponent(FilesComponent, this.injector), {
         heading: `Добавить ${firstLetterLowerCase(item.name)}`,
+        modalWidth: 40,
         buttons: baseModalButton,
         data: { documentId: item.id },
       })
@@ -68,13 +60,14 @@ export class AdditionalInfoComponent {
       .subscribe((url: string) => {
         // eslint-disable-next-line no-param-reassign
         item.file = url;
-        this.cdr.detectChanges();
       });
   }
 
   public deleteDocument(item: Document): void {
     this.modalService
-      .open<boolean>('Вы уверены, что хотите удалить документ?')
+      .open<boolean>('Вы уверены, что хотите удалить документ?', {
+        modalWidth: 20,
+      })
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (result) => {
@@ -83,7 +76,6 @@ export class AdditionalInfoComponent {
               if (response) {
                 // eslint-disable-next-line no-param-reassign
                 item.file = '';
-                this.cdr.detectChanges();
               }
             });
           }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
@@ -10,18 +10,13 @@ import { ProfileResponse } from '../../_models/responses/profile.response';
   selector: 'efes-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
 export class ProfileComponent implements OnInit {
   public user: User | undefined;
   public profile: ProfileResponse | undefined;
   public loading: boolean = true;
-  constructor(
-    private userService: UserService,
-    private destroy$: TuiDestroyService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  constructor(private userService: UserService, private destroy$: TuiDestroyService) {}
 
   ngOnInit() {
     this.loading = true;
@@ -46,7 +41,6 @@ export class ProfileComponent implements OnInit {
           return newData;
         });
         this.loading = false;
-        this.cdr.detectChanges();
       });
   }
 }

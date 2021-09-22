@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDay, TuiDestroyService, TuiDialog } from '@taiga-ui/cdk';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,7 +14,6 @@ import { SaveCompanyRequest } from '../../../../_models/requests/save-company.re
   selector: 'efes-personal-about',
   templateUrl: './personal-about.component.html',
   styleUrls: ['./personal-about.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TuiDestroyService,
     {
@@ -32,7 +31,6 @@ export class PersonalAboutComponent {
     private fb: FormBuilder,
     private userService: UserService,
     private destroy$: TuiDestroyService,
-    public cdr: ChangeDetectorRef,
     @Inject(POLYMORPHEUS_CONTEXT) public readonly context: TuiDialog<ModalOptions, boolean>,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
@@ -73,7 +71,7 @@ export class PersonalAboutComponent {
   }
 
   public onSave(): void {
-    if (isFormInvalid(this.personalAboutForm, this.cdr)) return;
+    if (isFormInvalid(this.personalAboutForm)) return;
     const data = this.personalAboutForm?.getRawValue();
     data.createDate = data.createDate[0].toUtcNativeDate();
     data.taxRegistrationDate = data.taxRegistrationDate[0].toUtcNativeDate();

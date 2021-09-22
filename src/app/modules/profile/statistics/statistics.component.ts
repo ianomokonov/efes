@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { rateChart } from './mock';
 import { ValueDateResponse } from '../../../_models/responses/value-date.response';
@@ -7,7 +7,6 @@ import { ValueDateResponse } from '../../../_models/responses/value-date.respons
   selector: 'efes-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsComponent {
   @Input()

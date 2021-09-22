@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDestroyService, TuiDialog } from '@taiga-ui/cdk';
 import { FormControl } from '@angular/forms';
@@ -11,7 +11,6 @@ import { UserService } from '../../../../_services/back/user.service';
   selector: 'efes-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
 export class FilesComponent {

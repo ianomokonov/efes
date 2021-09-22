@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  Injector,
-  Input,
-} from '@angular/core';
+import { Component, Inject, Injector, Input } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
@@ -18,7 +11,6 @@ import { baseModalButton } from '../../../_utils/constants';
   selector: 'efes-personal-info',
   templateUrl: './personal-info.component.html',
   styleUrls: ['./personal-info.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
 export class PersonalInfoComponent {
@@ -28,7 +20,6 @@ export class PersonalInfoComponent {
   constructor(
     private modalService: ModalService,
     private destroy$: TuiDestroyService,
-    private cdr: ChangeDetectorRef,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
@@ -36,14 +27,8 @@ export class PersonalInfoComponent {
     this.modalService
       .open<User | boolean>(new PolymorpheusComponent(EditPersonalInfoComponent), {
         heading: 'Персональная информация',
-        buttons: [
-          {
-            label: 'Сменить пароль',
-            voidType: false,
-            appearance: 'secondary',
-          },
-          ...baseModalButton,
-        ],
+        buttons: baseModalButton,
+        modalWidth: 30,
         data: this.user,
       })
       .pipe(takeUntil(this.destroy$))
@@ -51,7 +36,6 @@ export class PersonalInfoComponent {
         if (typeof result !== 'boolean') {
           this.user = result;
           this.user.roleId = Number(result.roleId);
-          this.cdr.detectChanges();
         }
       });
   }
