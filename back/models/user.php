@@ -70,25 +70,25 @@ class User
             "documents" => $this->getDocuments($userId),
             "company" => $this->getCompanyInfo($userId),
             "completeOrders" => [
-                array("value" => 1000, "date" => "01.07.21"),
-                array("value" => 1500, "date" => "08.07.21"),
-                array("value" => 900, "date" => "15.07.21"),
-                array("value" => 1200, "date" => "22.07.21"),
-                array("value" => 1800, "date" => "29.07.21")
+                array("value" => 1000, "name" => "01.07.21"),
+                array("value" => 1500, "name" => "08.07.21"),
+                array("value" => 900, "name" => "15.07.21"),
+                array("value" => 1200, "name" => "22.07.21"),
+                array("value" => 1800, "name" => "29.07.21")
             ],
             "views" => [
-                array("value" => 1000, "date" => "01.07.21"),
-                array("value" => 1500, "date" => "08.07.21"),
-                array("value" => 900, "date" => "15.07.21"),
-                array("value" => 1200, "date" => "22.07.21"),
-                array("value" => 1800, "date" => "29.07.21")
+                array("value" => 1000, "name" => "01.07.21"),
+                array("value" => 1500, "name" => "08.07.21"),
+                array("value" => 900, "name" => "15.07.21"),
+                array("value" => 1200, "name" => "22.07.21"),
+                array("value" => 1800, "name" => "29.07.21")
             ],
             "totalSums" => [
-                array("value" => 10000, "date" => "01.07.21"),
-                array("value" => 14000, "date" => "08.07.21"),
-                array("value" => 9000, "date" => "15.07.21"),
-                array("value" => 13000, "date" => "22.07.21"),
-                array("value" => 15000, "date" => "29.07.21")
+                array("value" => 10000, "name" => "01.07.21"),
+                array("value" => 14000, "name" => "08.07.21"),
+                array("value" => 9000, "name" => "15.07.21"),
+                array("value" => 13000, "name" => "22.07.21"),
+                array("value" => 15000, "name" => "29.07.21")
             ],
         );
         return $info;
@@ -118,7 +118,7 @@ class User
         if ($userFile) {
             $this->fileUploader->removeFile($userFile);
         }
-        $userFile = json_encode($this->fileUploader->upload($file, 'UserFiles', uniqid()));
+        $userFile = $this->fileUploader->upload($file, 'UserFiles', uniqid());
         $query = $this->dataBase->genInsertQuery(
             array(
                 "userId" => $userId,

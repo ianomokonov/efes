@@ -116,7 +116,7 @@ export class UserService {
    * @returns путь до созданного файла
    */
   public saveDocument(request: FormData): Observable<string> {
-    return this.http.put<string>(`${this.baseUrl}/user/document`, request);
+    return this.http.post<string>(`${this.baseUrl}/user/document`, request);
   }
 
   public deleteDocument(documentId: number): Observable<boolean> {

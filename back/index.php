@@ -119,13 +119,13 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user) {
             }
         });
 
-        $userGroup->put('/document', function (Request $request, Response $response) use ($user) {
+        $userGroup->post('/document', function (Request $request, Response $response) use ($user) {
             try {
                 $response->getBody()->write(json_encode($user->addDocument($request->getAttribute('userId'), $request->getParsedBody(), $_FILES['file'])));
                 return $response;
             } catch (Exception $e) {
-                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
-                return $response->withStatus(401);
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки документа")));
+                return $response->withStatus(500);
             }
         });
 
