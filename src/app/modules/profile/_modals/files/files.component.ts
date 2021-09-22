@@ -1,37 +1,46 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDestroyService, TuiDialog } from '@taiga-ui/cdk';
 import { FormControl } from '@angular/forms';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 import { takeUntil } from 'rxjs/operators';
-import { ModalOptions } from '../../../../components/modal/modal.interface';
+import { HttpClient } from '@angular/common/http';
+import { ButtonsInterface, ModalOptions } from '../../../../components/modal/modal.interface';
 import { UserService } from '../../../../_services/back/user.service';
 
 @Component({
   selector: 'efes-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.less'],
+  encapsulation: ViewEncapsulation.None,
   providers: [TuiDestroyService],
 })
 export class FilesComponent {
   public fileControl: FormControl;
+  private readonly button: ButtonsInterface | undefined;
+  public upLoad: boolean = false;
   constructor(
     private userService: UserService,
     private destroy$: TuiDestroyService,
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient,
     @Inject(POLYMORPHEUS_CONTEXT)
     public readonly context: TuiDialog<ModalOptions, boolean | string>,
     @Inject(TuiNotificationsService)
     private readonly notificationsService: TuiNotificationsService,
   ) {
     this.fileControl = new FormControl();
-    const button = this.context.buttons ? this.context.buttons[0] : undefined;
-    if (button) {
-      button.value = () => this.onSave();
-      button.voidType = true;
+    this.button = this.context.buttons ? this.context.buttons[0] : undefined;
+    if (this.button) {
+      this.button.value = () => this.onSave();
+      this.button.voidType = true;
     }
   }
 
   public onSave(): void {
+    this.upLoad = true;
+    if (this.button) this.button.disabled = true;
+    this.cdr.detectChanges();
     const file: File = this.fileControl.value;
     const { documentId } = this.context.data;
     const formData: FormData = new FormData();
@@ -40,6 +49,9 @@ export class FilesComponent {
     this.userService.saveDocument(formData).subscribe(
       (res) => {
         if (res) {
+          if (this.button) this.button.disabled = false;
+          this.upLoad = false;
+          this.cdr.detectChanges();
           this.context.completeWith(res);
         }
       },
@@ -51,6 +63,9 @@ export class FilesComponent {
           })
           .pipe(takeUntil(this.destroy$))
           .subscribe();
+        if (this.button) this.button.disabled = false;
+        this.upLoad = false;
+        this.cdr.detectChanges();
       },
     );
   }

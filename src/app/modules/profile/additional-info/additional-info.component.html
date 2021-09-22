@@ -4,15 +4,9 @@
     <span class="tui-col_md-10">Сведения о компании</span>
     <div class="flex jc-end tui-col_md-2">
       <tui-svg
-        *ngIf="!company"
-        src="tuiIconPlusCircleLarge"
+        [src]="company ? 'tuiIconEditLarge' : 'tuiIconPlusCircleLarge'"
+        [ngClass]="{ 'tui-space_right-1': company }"
         class="pointer"
-        (click)="openPersonalAbout()"
-      ></tui-svg>
-      <tui-svg
-        *ngIf="company"
-        src="tuiIconEditLarge"
-        class="pointer tui-space_right-1"
         (click)="openPersonalAbout()"
       ></tui-svg>
       <tui-svg *ngIf="company" src="tuiIconCheckCircleLarge" class="svg-success"></tui-svg>
@@ -41,6 +35,11 @@
     src="tuiIconCloseCircleLarge"
     class="pointer svg-danger tui-space_right-1"
     (click)="deleteDocument(item)"
+  ></tui-svg>
+  <tui-svg
+    src="tuiIconEditLarge"
+    class="pointer tui-space_right-1"
+    (click)="openFileModal(item)"
   ></tui-svg>
   <tui-svg src="tuiIconCheckCircleLarge" class="svg-success"></tui-svg>
 </ng-template>

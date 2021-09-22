@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, Input } from '@angular/core';
+import { Component, EventEmitter, Inject, Injector, Input, Output } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -23,6 +23,10 @@ export class AdditionalInfoComponent {
   public company: Company | null | undefined;
   @Input()
   public documents: Document[] | undefined;
+  @Output()
+  public companyInfoAdded: EventEmitter<Company> = new EventEmitter<Company>();
+  @Output()
+  public documentChanges: EventEmitter<Document> = new EventEmitter<Document>();
   constructor(
     private userService: UserService,
     private modalService: ModalService,
@@ -44,6 +48,7 @@ export class AdditionalInfoComponent {
       .subscribe((company) => {
         if (typeof company !== 'boolean' && this.company) {
           this.company = company;
+          this.companyInfoAdded.emit(this.company);
         }
       });
   }
@@ -54,12 +59,15 @@ export class AdditionalInfoComponent {
         heading: `Добавить ${firstLetterLowerCase(item.name)}`,
         modalWidth: 40,
         buttons: baseModalButton,
-        data: { documentId: item.id },
+        data: { documentId: item.id, fileUrl: item.file },
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe((url: string) => {
-        // eslint-disable-next-line no-param-reassign
-        item.file = url;
+      .subscribe((url: string | boolean) => {
+        if (typeof url === 'string') {
+          // eslint-disable-next-line no-param-reassign
+          item.file = url;
+          this.documentChanges.emit(item);
+        }
       });
   }
 
@@ -76,6 +84,7 @@ export class AdditionalInfoComponent {
               if (response) {
                 // eslint-disable-next-line no-param-reassign
                 item.file = '';
+                this.documentChanges.emit(item);
               }
             });
           }

@@ -11,6 +11,7 @@
       *ngFor="let button of context.buttons; last as isLast"
       tuiButton
       [ngClass]="{ 'tui-space_right-4': !isLast }"
+      [disabled]="button.disabled || false"
       [appearance]="button.appearance ? button.appearance : 'primary'"
       (click)="button.voidType ? button.value() : onClick(button.value)"
     >

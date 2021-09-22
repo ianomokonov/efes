@@ -10,4 +10,5 @@ export interface ButtonsInterface {
   label: string;
   value?: any;
   voidType?: boolean;
+  disabled?: boolean;
 }
