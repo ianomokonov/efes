@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-rates',
+  selector: 'efes-rates',
   templateUrl: './rates.component.html',
   styleUrls: ['./rates.component.less'],
 })

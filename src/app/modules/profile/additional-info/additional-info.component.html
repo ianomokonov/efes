@@ -1,0 +1,45 @@
+<tui-island>
+  <h3 class="tui-island__title">Осталось заполнить</h3>
+  <div class="tui-row tui-space_bottom-2">
+    <span class="tui-col_md-10">Сведения о компании</span>
+    <div class="flex jc-end tui-col_md-2">
+      <tui-svg
+        [src]="company ? 'tuiIconEditLarge' : 'tuiIconPlusCircleLarge'"
+        [ngClass]="{ 'tui-space_right-1': company }"
+        class="pointer"
+        (click)="openPersonalAbout()"
+      ></tui-svg>
+      <tui-svg *ngIf="company" src="tuiIconCheckCircleLarge" class="svg-success"></tui-svg>
+    </div>
+  </div>
+  <div class="tui-row tui-space_bottom-2" *ngFor="let item of documents">
+    <span class="tui-col_md-10">{{ item.name }}</span>
+    <div class="flex jc-end tui-col_md-2">
+      <tui-svg
+        *ngIf="!item.file"
+        src="tuiIconPlusCircleLarge"
+        class="pointer"
+        (click)="openFileModal(item)"
+      ></tui-svg>
+      <ng-container
+        *ngIf="item.file"
+        [ngTemplateOutlet]="fileButtons"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+    </div>
+  </div>
+</tui-island>
+
+<ng-template #fileButtons let-item="item">
+  <tui-svg
+    src="tuiIconCloseCircleLarge"
+    class="pointer svg-danger tui-space_right-1"
+    (click)="deleteDocument(item)"
+  ></tui-svg>
+  <tui-svg
+    src="tuiIconEditLarge"
+    class="pointer tui-space_right-1"
+    (click)="openFileModal(item)"
+  ></tui-svg>
+  <tui-svg src="tuiIconCheckCircleLarge" class="svg-success"></tui-svg>
+</ng-template>

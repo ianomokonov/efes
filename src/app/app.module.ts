@@ -8,6 +8,7 @@ import {
   TuiLinkModule,
   TuiDataListModule,
   TuiLabelModule,
+  TuiSvgModule,
 } from '@taiga-ui/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,14 +25,18 @@ import {
   TuiSelectModule,
   TuiSelectOptionModule,
 } from '@taiga-ui/kit';
+import { TUI_DIALOGS } from '@taiga-ui/cdk';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { TokenInterceptor } from './_interceptors/token.interceptor';
+import { ModalComponent } from './components/modal/modal.component';
+import { ModalService } from './components/modal/modal.service';
 
 @NgModule({
-  declarations: [AppComponent, SignInComponent, SignUpComponent],
+  declarations: [AppComponent, SignInComponent, SignUpComponent, ModalComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -54,6 +59,8 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
     TuiDataListWrapperModule,
     TuiLabelModule,
     TuiFieldErrorModule,
+    PolymorpheusModule,
+    TuiSvgModule,
   ],
   providers: [
     {
@@ -62,6 +69,11 @@ import { TokenInterceptor } from './_interceptors/token.interceptor';
       multi: true,
     },
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
+    {
+      provide: TUI_DIALOGS,
+      useExisting: ModalService,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

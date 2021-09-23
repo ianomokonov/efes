@@ -6,7 +6,7 @@ import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'efes-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.less'],
   providers: [
@@ -24,7 +24,7 @@ export class SignInComponent {
 
   constructor(private userService: UserService, private router: Router, private fb: FormBuilder) {
     this.logInForm = this.fb.group({
-      login: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }

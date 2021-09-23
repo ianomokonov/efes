@@ -1,0 +1,22 @@
+<tui-island class="tui-space_bottom-4" *ngIf="user">
+  <div class="tui-row tui-space_bottom-2">
+    <div class="tui-col_md-8">
+      <h3 class="tui-space_vertical-0">{{ user.surname }} {{ user.name }} {{ user.lastname }}</h3>
+    </div>
+    <div class="tui-col_md-4 flex jc-end">
+      <tui-svg src="tuiIconEditLarge" class="pointer" (click)="openPersonalEditModal()"></tui-svg>
+    </div>
+  </div>
+  <div class="tui-row">
+    <span class="tui-col_md-4">Email:</span>
+    <span class="tui-col_md-8">{{ user.email }}</span>
+  </div>
+  <div class="tui-row">
+    <span class="tui-col_md-4">Телефон:</span>
+    <span class="tui-col_md-8">{{ user.phone ? user.phone : 'Не указан' }}</span>
+  </div>
+  <div class="tui-row">
+    <span class="tui-col_md-4">Роль:</span>
+    <span class="tui-col_md-8">{{ user.roleName }}</span>
+  </div>
+</tui-island>

@@ -9,7 +9,7 @@ import { UserService } from '../../_services/back/user.service';
 import { isFormInvalid } from '../../_utils/formValidCheck';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'efes-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.less'],
   providers: [
@@ -30,7 +30,9 @@ export class SignUpComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router, private fb: FormBuilder) {
     this.signUpForm = this.fb.group({
+      surname: ['', [Validators.required]],
       name: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
       email: ['', [Validators.email, Validators.required]],
       phone: [''],
       password: ['', [Validators.required]],

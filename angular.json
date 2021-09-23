@@ -15,7 +15,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "efes",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -43,7 +43,8 @@
             "styles": [
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-              "src/styles.less"
+              "src/styles.less",
+              "src/styles.override.less"
             ],
             "scripts": []
           },

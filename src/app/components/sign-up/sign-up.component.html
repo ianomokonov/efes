@@ -2,8 +2,16 @@
   <div class="tui-col_md-6">
     <tui-island textAlign="center" [formGroup]="signUpForm">
       <div class="tui-space_bottom-4">
-        <tui-input formControlName="name">ФИО</tui-input>
+        <tui-input formControlName="surname">Фамилия</tui-input>
+        <tui-field-error formControlName="surname"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="name">Имя</tui-input>
         <tui-field-error formControlName="name"></tui-field-error>
+      </div>
+      <div class="tui-space_bottom-4">
+        <tui-input formControlName="lastname">Отчество</tui-input>
+        <tui-field-error formControlName="lastname"></tui-field-error>
       </div>
       <div class="tui-space_bottom-4">
         <tui-input formControlName="email">Почта</tui-input>

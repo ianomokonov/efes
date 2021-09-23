@@ -64,6 +64,136 @@ class User
         return $user;
     }
 
+    public function getProfileInfo($userId)
+    {
+        $info = array(
+            "documents" => $this->getDocuments($userId),
+            "company" => $this->getCompanyInfo($userId),
+            "completeOrders" => [
+                array("value" => 1000, "name" => "01.07.21"),
+                array("value" => 1500, "name" => "08.07.21"),
+                array("value" => 900, "name" => "15.07.21"),
+                array("value" => 1200, "name" => "22.07.21"),
+                array("value" => 1800, "name" => "29.07.21")
+            ],
+            "views" => [
+                array("value" => 1000, "name" => "01.07.21"),
+                array("value" => 1500, "name" => "08.07.21"),
+                array("value" => 900, "name" => "15.07.21"),
+                array("value" => 1200, "name" => "22.07.21"),
+                array("value" => 1800, "name" => "29.07.21")
+            ],
+            "totalSums" => [
+                array("value" => 10000, "name" => "01.07.21"),
+                array("value" => 14000, "name" => "08.07.21"),
+                array("value" => 9000, "name" => "15.07.21"),
+                array("value" => 13000, "name" => "22.07.21"),
+                array("value" => 15000, "name" => "29.07.21")
+            ],
+        );
+        return $info;
+    }
+
+    private function getDocuments($userId)
+    {
+        $query = "SELECT d.id, d.name, files.file FROM (SELECT file, documentId FROM UserDocument WHERE userId = $userId) as files RIGHT JOIN Document d ON d.id=files.documentId ORDER BY d.id";
+        return $this->dataBase->db->query($query)->fetchAll();
+    }
+
+    private function getDocumentFile($userId, $documentId)
+    {
+        $query = "SELECT file FROM UserDocument WHERE userId = $userId AND documentId=$documentId";
+        $stmt = $this->dataBase->db->query($query);
+
+        return $stmt->fetch()['file'];
+    }
+
+    public function addDocument($userId, $document, $file)
+    {
+        if(!$file){
+            throw new Exception('Загрузите файл');
+        }
+        $document = $this->dataBase->stripAll((array)$document);
+        $userFile = $this->getDocumentFile($userId, $document['documentId']);
+        if ($userFile) {
+            $this->fileUploader->removeFile($userFile);
+        }
+        $userFile = $this->fileUploader->upload($file, 'UserFiles', uniqid());
+        $query = $this->dataBase->genInsertQuery(
+            array(
+                "userId" => $userId,
+                "documentId" => $document['documentId'],
+                "file" => $userFile
+            ),
+            "UserDocument"
+        );
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+
+        return $userFile;
+    }
+
+    public function deleteDocument($userId, $documentId)
+    {
+        $documentId = $this->dataBase->strip($documentId);
+        $userFile = $this->getDocumentFile($userId, $documentId);
+        if ($userFile) {
+            $this->fileUploader->removeFile($userFile);
+            $query = "DELETE FROM UserDocument WHERE userId=$userId AND documentId=$documentId";
+            $this->dataBase->db->query($query);
+        }
+        return true;
+    }
+
+    private function getCompanyInfo($userId)
+    {
+        $query = "SELECT * FROM UserCompany WHERE userId=$userId";
+        $company = $this->dataBase->db->query($query)->fetch();
+        if ($company) {
+            $company['createDate'] = $company['createDate'] ? date("Y/m/d H:i:s", strtotime($company['createDate'])) : null;
+            $company['taxRegistrationDate'] = $company['taxRegistrationDate'] ? date("Y/m/d H:i:s", strtotime($company['taxRegistrationDate'])) : null;
+            unset($company['id']);
+            unset($company['userId']);
+            return $company;
+        }
+        return null;
+    }
+
+    public function addCompanyInfo($userId, $data)
+    {
+        $data = $this->dataBase->stripAll((array)$data);
+        $data['userId'] = $userId;
+        $query = $this->dataBase->genInsertQuery(
+            $data,
+            "UserCompany"
+        );
+
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+
+        return true;
+    }
+
+    public function updateCompanyInfo($userId, $request)
+    {
+        $request = $this->dataBase->stripAll((array)$request);
+
+        $query = $this->dataBase->genUpdateQuery(
+            $request,
+            "UserCompany",
+            $userId,
+            "userId"
+        );
+
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        $stmt->execute($query[1]);
+        return true;
+    }
+
     public function update($userId, $request)
     {
         $request = $this->dataBase->stripAll((array)$request);

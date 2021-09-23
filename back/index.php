@@ -109,6 +109,60 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user) {
             }
         });
 
+        $userGroup->get('/profile-info', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->getProfileInfo($request->getAttribute('userId'))));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
+
+        $userGroup->post('/document', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->addDocument($request->getAttribute('userId'), $request->getParsedBody(), $_FILES['file'])));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки документа")));
+                return $response->withStatus(500);
+            }
+        });
+
+        $userGroup->delete('/document/{documentId}', function (Request $request, Response $response) use ($user) {
+            try {
+
+                $routeContext = RouteContext::fromRequest($request);
+                $route = $routeContext->getRoute();
+                $documentId = $route->getArgument('documentId');
+                $response->getBody()->write(json_encode($user->deleteDocument($request->getAttribute('userId'), $documentId)));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
+                return $response->withStatus(401);
+            }
+        });
+
+        $userGroup->post('/company-info', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->addCompanyInfo($request->getAttribute('userId'), $request->getParsedBody())));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка добавления компании")));
+                return $response->withStatus(401);
+            }
+        });
+
+        $userGroup->put('/company-info', function (Request $request, Response $response) use ($user) {
+            try {
+                $response->getBody()->write(json_encode($user->updateCompanyInfo($request->getAttribute('userId'), $request->getParsedBody())));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка изменения компании")));
+                return $response->withStatus(401);
+            }
+        });
+
         $userGroup->put('', function (Request $request, Response $response) use ($user) {
             try {
                 $response->getBody()->write(json_encode($user->update($request->getAttribute('userId'), $request->getParsedBody())));

@@ -1,0 +1,66 @@
+<div class="tui-container tui-container_fullwidth">
+  <div class="tui-row tui-row_adaptive">
+    <div class="tui-col_md-12">
+      <h1>
+        Рейтинг:<span class="color-secondary tui-space_left-1">{{ rates[1].value }}%</span>
+      </h1>
+      <ngx-charts-pie-chart
+        [view]="[300, 300]"
+        [results]="rates"
+        [scheme]="pieColorScheme"
+      ></ngx-charts-pie-chart>
+    </div>
+  </div>
+  <div class="tui-row tui-row_adaptive">
+    <div class="tui-col_md-12 flex ai-center">
+      <h1>Статистика</h1>
+      <a class="tui-space_left-2" tuiLink>за неделю</a>
+    </div>
+  </div>
+  <div class="tui-row tui-row_adaptive">
+    <div class="tui-col_md-6 tui-col_xs-12 flex flex-column">
+      <h2>Кол-во выполненных заказов</h2>
+      <div class="chart">
+        <ngx-charts-bar-vertical
+          *ngIf="completeOrders.length"
+          [results]="completeOrders"
+          [showGridLines]="true"
+          [yAxis]="true"
+          [xAxis]="true"
+          [scheme]="barColorScheme"
+          [barPadding]="2"
+        ></ngx-charts-bar-vertical>
+      </div>
+    </div>
+    <div class="tui-col_md-6 tui-col_xs-12 flex flex-column">
+      <h2>Кол-во просмотров</h2>
+      <div class="chart">
+        <ngx-charts-bar-vertical
+          *ngIf="views.length"
+          [results]="views"
+          [showGridLines]="true"
+          [yAxis]="true"
+          [xAxis]="true"
+          [scheme]="barColorScheme"
+          [barPadding]="2"
+        ></ngx-charts-bar-vertical>
+      </div>
+    </div>
+  </div>
+  <div class="tui-row tui-row_adaptive">
+    <div class="tui-col_md-12 flex flex-column">
+      <h2>Оборот заказов</h2>
+      <div class="chart">
+        <ngx-charts-bar-vertical
+          *ngIf="totalSums.length"
+          [results]="totalSums"
+          [showGridLines]="true"
+          [yAxis]="true"
+          [xAxis]="true"
+          [scheme]="barColorScheme"
+          [barPadding]="2"
+        ></ngx-charts-bar-vertical>
+      </div>
+    </div>
+  </div>
+</div>

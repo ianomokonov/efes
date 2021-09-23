@@ -1,1 +1,23 @@
-<p>profile works!</p>
+<tui-loader class="custom-loader" size="xxl" [overlay]="true" [showLoader]="loading">
+  <div *ngIf="!loading" class="tui-row tui-row_adaptive tui-space_vertical-4">
+    <div class="tui-col_xs-12 tui-col_md-4">
+      <efes-personal-info [user]="user"></efes-personal-info>
+      <efes-additional-info
+        *ngIf="profile"
+        [company]="profile.company"
+        [documents]="profile.documents"
+        (companyInfoAdded)="additionalInfoChanges('company', $event)"
+        (documentChanges)="additionalInfoChanges('document', $event)"
+      ></efes-additional-info>
+    </div>
+    <div class="tui-col_xs-12 tui-col_md-8">
+      <efes-statistics
+        *ngIf="profile"
+        [rates]="rates"
+        [completeOrders]="profile.completeOrders"
+        [views]="profile.views"
+        [totalSums]="profile.totalSums"
+      ></efes-statistics>
+    </div>
+  </div>
+</tui-loader>

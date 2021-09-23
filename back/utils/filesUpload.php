@@ -1,6 +1,6 @@
 <?php
 class FilesUpload{
-    private $baseUrl = 'http://stand1.progoff.ru/api/';
+    private $baseUrl = 'http://stand2.progoff.ru/back/';
     public function upload($file, $path, $prefix){
         if(!file_exists($path)){
             mkdir($path);
