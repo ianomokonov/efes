@@ -13,6 +13,32 @@ class DataBase
         $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
+    public function genSelectQuery($table, $whereStmts = [])
+    {
+        $whereStmts = (array) $whereStmts;
+        $res = array('SELECT * FROM ' . $table, array());
+
+        if (count($whereStmts) > 0) {
+            $res[0] = $res[0] . ' WHERE';
+
+            foreach ($whereStmts as $key => $value) {
+                if ($value == null) {
+                    $res[0] = $res[0] . " $key IS ? AND";
+                } else if (strpos($value, 'LIKE') || strpos($value, 'LIKE') == 0) {
+                    $res[0] = $res[0] . " $key $value AND";
+                } else {
+                    $res[0] = $res[0] . " $key=?,";
+                    $res[1][] = $value;
+                }
+            }
+            $res[0] = rtrim($res[0], ' AND');
+        }
+
+        $res[0] = $res[0] . ';';
+
+        return $res;
+    }
+
     public function genInsertQuery($ins, $t)
     {
         $ins = (array) $ins;

@@ -96,6 +96,34 @@ CREATE TABLE `UserDocument` (
 );
 
 -- ---
+-- Table 'Service'
+-- 
+-- ---
+DROP TABLE IF EXISTS `Service`;
+CREATE TABLE `Service` (
+  `id` INTEGER(10) AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `workType` INTEGER(2) NOT NULL,
+  `endDate` DATE NOT NULL,
+  `region` INTEGER(2) NOT NULL,
+  `orderType` INTEGER(2) NOT NULL,
+  `creatorId` INTEGER(10) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'UserService'
+-- 
+-- ---
+DROP TABLE IF EXISTS `UserService`;
+CREATE TABLE `UserService` (
+  `id` INTEGER(10) AUTO_INCREMENT,
+  `userId` INTEGER(10) NOT NULL,
+  `serviceId` INTEGER(10) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
 -- Foreign Keys 
 -- ---
 ALTER TABLE `RefreshTokens`
@@ -108,6 +136,12 @@ ALTER TABLE `UserDocument`
 ADD FOREIGN KEY (documentId) REFERENCES `Document` (`id`);
 ALTER TABLE `UserCompany`
 ADD FOREIGN KEY (userId) REFERENCES `User` (`id`);
+ALTER TABLE `Service`
+ADD FOREIGN KEY (creatorId) REFERENCES `User` (`id`);
+ALTER TABLE `UserService`
+ADD FOREIGN KEY (userId) REFERENCES `User` (`id`);
+ALTER TABLE `UserService`
+ADD FOREIGN KEY (serviceId) REFERENCES `Service` (`id`);
 
 
 

@@ -64,6 +64,14 @@ class User
         return $user;
     }
 
+    public function readShortView($userId)
+    {
+        $query = "SELECT u.id, u.name, surname, lastname, u.roleId, ur.name as roleName FROM $this->table u JOIN UserRole ur ON u.roleId = ur.id WHERE u.id=$userId";
+        $user = $this->dataBase->db->query($query)->fetch();
+        $user['roleId'] = $user['roleId'] * 1;
+        return $user;
+    }
+
     public function getProfileInfo($userId)
     {
         $info = array(

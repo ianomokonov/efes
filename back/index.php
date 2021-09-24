@@ -7,6 +7,7 @@ require_once 'vendor/autoload.php';
 require_once './utils/database.php';
 require_once './utils/token.php';
 require_once './models/user.php';
+require_once './models/service.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Response as ResponseClass;
@@ -18,6 +19,7 @@ use Slim\Routing\RouteContext;
 
 $dataBase = new DataBase();
 $user = new User($dataBase);
+$service = new Service($dataBase);
 $token = new Token();
 $app = AppFactory::create();
 $app->setBasePath(rtrim($_SERVER['PHP_SELF'], '/index.php'));
@@ -96,7 +98,7 @@ $app->post('/update-password', function (Request $request, Response $response) u
     }
 });
 
-$app->group('/', function (RouteCollectorProxy $group) use ($user) {
+$app->group('/', function (RouteCollectorProxy $group) use ($user, $service) {
 
     $group->group('user', function (RouteCollectorProxy $userGroup) use ($user) {
         $userGroup->get('', function (Request $request, Response $response) use ($user) {
@@ -171,6 +173,47 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user) {
                 $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки пользователя")));
                 return $response->withStatus(401);
             }
+        });
+    });
+
+    $group->group('services', function (RouteCollectorProxy $servicesGroup) use ($service) {
+        $servicesGroup->get('', function (Request $request, Response $response) use ($service) {
+            try {
+                $response->getBody()->write(json_encode($service->getServices($request->getQueryParams(), $request->getAttribute('userId'))));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки услуг")));
+                return $response->withStatus(500);
+            }
+        });
+
+        $servicesGroup->get('/filters', function (Request $request, Response $response) use ($service) {
+            try {
+                $response->getBody()->write(json_encode($service->getFilters()));
+                return $response;
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка загрузки фильтров")));
+                return $response->withStatus(500);
+            }
+        });
+
+        $servicesGroup->group('/{serviceId}', function (RouteCollectorProxy $serviceGroup) use ($service) {
+            $serviceGroup->get('/favorite', function (Request $request, Response $response) use ($service) {
+                try {
+                    $response->getBody()->write(json_encode($service->setFavorite($request->getAttribute('userId'), $request->getAttribute('serviceId'))));
+                    return $response;
+                } catch (Exception $e) {
+                    $response->getBody()->write(json_encode(array("e" => $e, "message" => "Ошибка добавления в избранное")));
+                    return $response->withStatus(500);
+                }
+            });
+        })->add(function (Request $request, RequestHandler $handler) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $request = $request->withAttribute('serviceId', $route->getArgument('serviceId'));
+            $response = $handler->handle($request);
+
+            return $response;
         });
     });
 
