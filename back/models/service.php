@@ -15,6 +15,7 @@ class Service
     public function __construct(DataBase $dataBase)
     {
         $this->dataBase = $dataBase;
+        $this->user = new User($dataBase);
     }
 
     public function getFilters()
@@ -25,7 +26,7 @@ class Service
     public function getServices($query, $userId)
     {
         if (isset($query['searchString'])) {
-            $query['name'] = "LIKE %'" . $this->dataBase->strip($query['searchString']) . "'%";
+            $query['name'] = "LIKE '%" . $this->dataBase->strip($query['searchString']) . "%'";
             unset($query['searchString']);
         }
 
@@ -78,19 +79,16 @@ class Service
 
     private function getFilter($key, $id)
     {
-
-        $filter = array_filter(
-            Constants::$filters,
-            function ($filter) use ($key) {
-                return $filter['key'] == $key;
+        foreach (Constants::$filters as $filter) {
+            if ($filter['key'] == $key) {
+                foreach ($filter['values'] as $value) {
+                    if ($value['id'] == $id) {
+                        return $value;
+                    }
+                }
             }
-        )[0];
+        }
 
-        return array_filter(
-            $filter['values'],
-            function ($value) use ($id) {
-                return $value['id'] == $id;
-            }
-        )[0];
+        return null;
     }
 }

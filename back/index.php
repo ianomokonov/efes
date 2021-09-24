@@ -198,7 +198,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($user, $service) {
         });
 
         $servicesGroup->group('/{serviceId}', function (RouteCollectorProxy $serviceGroup) use ($service) {
-            $serviceGroup->get('/favorite', function (Request $request, Response $response) use ($service) {
+            $serviceGroup->put('/favorite', function (Request $request, Response $response) use ($service) {
                 try {
                     $response->getBody()->write(json_encode($service->setFavorite($request->getAttribute('userId'), $request->getAttribute('serviceId'))));
                     return $response;

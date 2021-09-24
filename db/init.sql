@@ -120,7 +120,8 @@ CREATE TABLE `UserService` (
   `id` INTEGER(10) AUTO_INCREMENT,
   `userId` INTEGER(10) NOT NULL,
   `serviceId` INTEGER(10) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE (`userId`, `serviceId`)
 );
 
 -- ---

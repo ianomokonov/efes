@@ -18,16 +18,17 @@ class DataBase
         $whereStmts = (array) $whereStmts;
         $res = array('SELECT * FROM ' . $table, array());
 
-        if (count($whereStmts) > 0) {
+        if (count(array_keys($whereStmts)) > 0) {
             $res[0] = $res[0] . ' WHERE';
 
             foreach ($whereStmts as $key => $value) {
                 if ($value == null) {
                     $res[0] = $res[0] . " $key IS ? AND";
-                } else if (strpos($value, 'LIKE') || strpos($value, 'LIKE') == 0) {
+                    $res[1][] = $value;
+                } else if (strpos($value, 'LIKE') || strpos($value, 'LIKE') === 0) {
                     $res[0] = $res[0] . " $key $value AND";
                 } else {
-                    $res[0] = $res[0] . " $key=?,";
+                    $res[0] = $res[0] . " $key=? AND";
                     $res[1][] = $value;
                 }
             }

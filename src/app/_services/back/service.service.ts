@@ -23,6 +23,6 @@ export class ServiceService {
   }
 
   public setFavorite(serviceId: number): Observable<void> {
-    return this.http.get<void>(`${this.baseUrl}/service/${serviceId}/favorite`);
+    return this.http.put<void>(`${this.baseUrl}/services/${serviceId}/favorite`, {});
   }
 }
