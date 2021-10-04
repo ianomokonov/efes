@@ -1,0 +1,40 @@
+<div class="tui-container tui-container_fullwidth">
+  <efes-search-string (getServices)="getServices($event)"></efes-search-string>
+  <tui-loader class="custom-loader" size="xxl" [overlay]="true" [showLoader]="loading">
+    <div *ngIf="!loading" class="tui-row tui-row_adaptive">
+      <div class="tui-col_md-12">Всего результатов: {{ services.length }}</div>
+      <div class="tui-col_md-12">
+        <tui-island *ngFor="let item of services" class="tui-space_bottom-4">
+          <div class="flex ai-center jc-between border-bottom tui-space_bottom-2">
+            <div class="flex ai-center tui-space_bottom-2">
+              <span>{{ item.name }}</span>
+              <span class="tui-space_left-4">{{ item.endDate | date: 'dd.MM.YYYY' }}</span>
+            </div>
+            <tui-svg src="tuiIconStarLarge" class="tui-space_bottom-2"></tui-svg>
+          </div>
+          <div class="tui-row">
+            <div class="tui-col_md-3 flex flex-column">
+              <span>Вид работ</span>
+              <span>{{ item.workType.name }}</span>
+            </div>
+            <div class="tui-col_md-3 flex flex-column">
+              <span>Срок работ</span>
+              <span>до {{ item.endDate | date: 'dd.MM.YYYY' }}</span>
+            </div>
+            <div class="tui-col_md-3 flex flex-column">
+              <span>Заказчик</span>
+              <span>{{ item.creator.roleName }}</span>
+            </div>
+            <div class="tui-col_md-3 flex flex-column">
+              <span>Рейтинг</span>
+              <span>67%</span>
+            </div>
+          </div>
+        </tui-island>
+        <div *ngIf="!services.length">
+          <h3>Совпадений не найдено</h3>
+        </div>
+      </div>
+    </div>
+  </tui-loader>
+</div>

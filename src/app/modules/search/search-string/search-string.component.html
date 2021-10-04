@@ -1,0 +1,22 @@
+<div class="tui-row">
+  <div class="tui-col_md-12">
+    <tui-input [formControl]="searchControl" icon="tuiIconSearch" iconAlign="left">
+      Поиск
+    </tui-input>
+  </div>
+  <div class="tui-col_md-12 tui-space_top-2">
+    <button
+      tuiButton
+      type="button"
+      icon="tuiIconPlusLarge"
+      appearance="primary"
+      (click)="addFilter(true)"
+    >
+      Добавить фильтр
+    </button>
+  </div>
+</div>
+
+<div *tuiSidebar="showSideBar; direction: 'left'">
+  <efes-filters [filters]="filters"></efes-filters>
+</div>

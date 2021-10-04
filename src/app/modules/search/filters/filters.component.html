@@ -1,0 +1,11 @@
+<div *ngIf="filtersForm" class="tui-container tui-container_fullwidth" [formGroup]="filtersForm">
+  <div *ngFor="let filter of filters" class="tui-space_bottom-4">
+    <tui-multi-select
+      [formControlName]="filter.key"
+      [tuiTextfieldLabelOutside]="true"
+      [expandable]="false"
+    >
+      {{ filter.name }}
+    </tui-multi-select>
+  </div>
+</div>

@@ -26,6 +26,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/feedback/feedback.module').then((m) => m.FeedbackModule),
   },
   {
+    path: 'search',
+    loadChildren: () => import('./modules/search/search.module').then((m) => m.SearchModule),
+  },
+  {
     path: 'sign-in',
     component: SignInComponent,
   },

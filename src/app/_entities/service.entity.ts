@@ -3,7 +3,7 @@ import { IdNameResponse } from '../_models/responses/id-name.response';
 
 export interface ServiceEntity {
   id: number;
-
+  isFavorite: boolean;
   name: string;
   creator: User;
   workType: IdNameResponse;
