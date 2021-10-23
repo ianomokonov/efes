@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { ActivatedRoute } from '@angular/router';
 import { ServiceService } from '../../_services/back/service.service';
 import { SearchServicesRequest } from '../../_models/requests/search-services.request';
 import { ServiceEntity } from '../../_entities/service.entity';
+import { FiltersService } from '../../_services/front/filters.service';
 
 @Component({
   selector: 'efes-search',
@@ -15,16 +17,15 @@ export class SearchComponent implements OnInit {
   public serviceString: SearchServicesRequest | undefined;
   public services: ServiceEntity[] = [];
   public loading = true;
-  constructor(private service: ServiceService, private destroy$: TuiDestroyService) {}
+  constructor(
+    private service: ServiceService,
+    private filtersService: FiltersService,
+    private route: ActivatedRoute,
+    private destroy$: TuiDestroyService,
+  ) {}
 
   ngOnInit(): void {
-    this.service
-      .getServices({ searchString: '' })
-      .pipe(take(1))
-      .subscribe((services) => {
-        this.services = services;
-        this.loading = false;
-      });
+    this.filtersService.genFiltersControls();
   }
 
   public getServices(searchServices: SearchServicesRequest): void {
