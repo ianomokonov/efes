@@ -38,4 +38,21 @@ export class SearchComponent implements OnInit {
         this.loading = false;
       });
   }
+
+  public favoriteClick(id: number): void {
+    this.service
+      .setFavorite(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        if (res) {
+          this.services.map((service) => {
+            if (service.id === id) {
+              // eslint-disable-next-line no-param-reassign
+              service.isFavorite = !service.isFavorite;
+            }
+            return service;
+          });
+        }
+      });
+  }
 }

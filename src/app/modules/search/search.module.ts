@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  TuiBadgeModule,
   TuiDataListWrapperModule,
   TuiInputModule,
   TuiIslandModule,
@@ -41,6 +42,7 @@ import { SearchStringComponent } from './search-string/search-string.component';
     TuiTextfieldControllerModule,
     TuiDataListWrapperModule,
     TuiLetModule,
+    TuiBadgeModule,
   ],
 })
 export class SearchModule {}

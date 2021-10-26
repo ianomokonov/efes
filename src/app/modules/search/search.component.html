@@ -2,7 +2,7 @@
   <efes-search-string (getServices)="getServices($event)"></efes-search-string>
   <tui-loader class="custom-loader" size="xxl" [overlay]="true" [showLoader]="loading">
     <div *ngIf="!loading" class="tui-row tui-row_adaptive">
-      <div class="tui-col_md-12">Всего результатов: {{ services.length }}</div>
+      <div class="tui-col_md-12 tui-space_vertical-4">Всего результатов: {{ services.length }}</div>
       <div class="tui-col_md-12">
         <tui-island *ngFor="let item of services" class="tui-space_bottom-4">
           <div class="flex ai-center jc-between border-bottom tui-space_bottom-2">
@@ -10,7 +10,11 @@
               <span>{{ item.name }}</span>
               <span class="tui-space_left-4">{{ item.endDate | date: 'dd.MM.YYYY' }}</span>
             </div>
-            <tui-svg src="tuiIconStarLarge" class="tui-space_bottom-2"></tui-svg>
+            <tui-svg
+              (click)="favoriteClick(item.id)"
+              [src]="item.isFavorite ? 'tuiIconStarFilledLarge' : 'tuiIconStarLarge'"
+              class="tui-space_bottom-2 pointer"
+            ></tui-svg>
           </div>
           <div class="tui-row">
             <div class="tui-col_md-3 flex flex-column">

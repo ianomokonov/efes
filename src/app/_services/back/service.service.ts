@@ -22,7 +22,7 @@ export class ServiceService {
     return this.http.get<ServiceEntity[]>(`${this.baseUrl}/services`, { params });
   }
 
-  public setFavorite(serviceId: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/services/${serviceId}/favorite`, {});
+  public setFavorite(serviceId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.baseUrl}/services/${serviceId}/favorite`, {});
   }
 }

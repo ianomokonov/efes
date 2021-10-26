@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchServicesRequest } from '../../../_models/requests/search-services.request';
 import { ServiceService } from '../../../_services/back/service.service';
 import { FiltersService } from '../../../_services/front/filters.service';
-import { IdNameResponse } from '../../../_models/responses/id-name.response';
+import { BadgeInterface } from '../../../_models/interfaces/badge.interface';
 
 @Component({
   selector: 'efes-search-string',
@@ -22,7 +22,7 @@ export class SearchStringComponent implements OnInit {
   public getServices: EventEmitter<SearchServicesRequest> = new EventEmitter<SearchServicesRequest>();
   public showSideBar = false;
   public filtersControls: Record<string, FormControl>[] = [];
-  public filterBadges: IdNameResponse[] = [];
+  public filterBadges: BadgeInterface[] = [];
   constructor(
     private service: ServiceService,
     private route: ActivatedRoute,
@@ -31,6 +31,9 @@ export class SearchStringComponent implements OnInit {
     private destroy$: TuiDestroyService,
   ) {
     this.searchControl = this.fb.control('');
+    this.filtersService.filterBadgesChanges.pipe(takeUntil(destroy$)).subscribe((badges) => {
+      this.filterBadges = badges;
+    });
   }
 
   ngOnInit(): void {
@@ -55,5 +58,9 @@ export class SearchStringComponent implements OnInit {
 
   public addFilter(toggle: boolean): void {
     this.showSideBar = toggle;
+  }
+
+  public removeFilter(key: string, id: number): void {
+    this.filtersService.removeFilter(key, id);
   }
 }
